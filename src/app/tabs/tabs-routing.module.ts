@@ -19,20 +19,21 @@ const routes: Routes = [
         path: 'products',
         loadChildren: () => import('../modules/products/products.module').then(m => m.Tab3PageModule)
       },
-      {
-        path: 'login',
-        loadChildren: () => import('../modules/auth/components/login/login.module').then(m => m.LoginPageModule)
-      },
+
       {
         path: '',
-        redirectTo: '/tabs/profile',
+        redirectTo: '/tabs/products',
         pathMatch: 'full'
       }
     ]
   },
   {
+    path: 'login',
+    loadChildren: () => import('../modules/auth/components/login/login.module').then(m => m.LoginPageModule)
+  },
+  {
     path: '',
-    redirectTo: '/tabs/profile',
+    redirectTo: '/tabs/products',
     pathMatch: 'full'
   }
 ];

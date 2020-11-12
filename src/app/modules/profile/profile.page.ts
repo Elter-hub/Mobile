@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../../models/user';
 import {UserService} from '../shared/services/user.service';
+import {StorageService} from '../shared/services/storage.service';
 
 @Component({
   selector: 'app-tab1',
@@ -8,14 +9,24 @@ import {UserService} from '../shared/services/user.service';
   styleUrls: ['profile.page.scss']
 })
 export class ProfilePage implements OnInit{
-
   user: User;
-  constructor(private userService: UserService) {}
+  isLogged: boolean;
+  constructor(private userService: UserService,
+              private storageService: StorageService) {}
 
   ngOnInit(): void {
+    this.userService.isLogged.subscribe(data => this.isLogged = data)
     this.userService.currentUser.subscribe(user => {
       console.log(user);
-      this.user = user;
+      if (!this.isLogged){
+        this.storageService.getUser().then(data => {
+          this.user = data
+          this.userService.changeIsLogged();
+          console.log(data);
+        })
+      }else {
+        this.user = user;
+      }
     })
   }
 

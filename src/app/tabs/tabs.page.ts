@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {TokenService} from '../modules/shared/services/token.service';
+import {StorageService} from '../modules/shared/services/storage.service';
 import {UserService} from '../modules/shared/services/user.service';
 
 @Component({
@@ -10,21 +10,28 @@ import {UserService} from '../modules/shared/services/user.service';
 })
 export class TabsPage implements OnInit{
   isLogin: boolean;
+  showTabsIcons: boolean;
   constructor(private router: Router,
               private userService: UserService,
-              private tokenService: TokenService) {}
+              private storageService: StorageService,
+              private tokenService: StorageService) {}
 
     login() {
       if (this.isLogin) {
-        this.tokenService.removeTokens();
-        this.router.navigateByUrl('tabs/login').then(() => window.location.reload());
+       this.tokenService.removeTokens();
+       this.userService.changeIsLogged();
+        this.router.navigateByUrl('login').then(() => window.location.reload());
+      } else {
+        this.userService.changeIsLogged();
+        this.router.navigateByUrl('login');
       }
-      this.router.navigateByUrl('tabs/login');
+
     }
   ngOnInit(): void {
-    this.userService.currentUser.subscribe(user => {
-      console.log(user);
-      this.isLogin = user.isLogged;
+    this.userService.isLogged.subscribe(data => {
+      console.log(data);
+      this.isLogin = data;
+      this.showTabsIcons = data;
     })
   }
 }
