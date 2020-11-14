@@ -23,10 +23,6 @@ const routes: Routes = [
 
       {path: '', redirectTo: '/tabs/products', pathMatch: 'full'}]},
   {
-    path: 'login',
-    loadChildren: () => import('../modules/auth/components/login/login.module').then(m => m.LoginPageModule)
-  },
-  {
     path: 'signup',
     component: SignUpComponent
   },

@@ -1,26 +1,23 @@
 <ion-toolbar>
     <ion-buttons slot="primary">
-        <ion-button  color="secondary">
+        <ion-button color="secondary">
             <ion-icon name="person-add-outline" *ngIf="!isLogin"></ion-icon>
             <ion-label *ngIf="!isLogin">Sign up!</ion-label>
         </ion-button>
         <ion-button (click)="login()" color="secondary">
             <ion-icon name="log-in-outline" color="tertiary" *ngIf="!isLogin"></ion-icon>
             <ion-label color="tertiary" *ngIf="!isLogin"> Login</ion-label>
-
             <ion-icon name="log-out-outline" *ngIf="isLogin"></ion-icon>
             <ion-label *ngIf="isLogin">Logout</ion-label>
         </ion-button>
     </ion-buttons>
 </ion-toolbar>
-
-<ion-tabs >
-    <ion-tab-bar slot="bottom" >
+<ion-tabs>
+    <ion-tab-bar slot="bottom">
         <ion-tab-button tab="profile">
             <ion-icon name="person-circle-outline"></ion-icon>
             <ion-label>Profile</ion-label>
         </ion-tab-button>
-
         <ion-tab-button tab="cart">
             <ion-icon name="cart-outline"></ion-icon>
             <ion-label>Cart</ion-label>
@@ -31,6 +28,4 @@
             <ion-label>Items</ion-label>
         </ion-tab-button>
     </ion-tab-bar>
-
-
 </ion-tabs>

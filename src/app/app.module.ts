@@ -18,7 +18,7 @@ import {UserChangePasswordComponent} from './modules/auth/components/user-change
 import {CommonModule} from '@angular/common';
 
 @NgModule({
-    declarations: [AppComponent, SignUpComponent, UserChangePasswordComponent,  ChangeImageComponent],
+    declarations: [AppComponent],
     entryComponents: [],
     imports: [BrowserModule,
         HttpClientModule,

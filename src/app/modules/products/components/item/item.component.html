@@ -1,10 +1,14 @@
-  <ion-item>
-    <ion-avatar>
-      <img [src]="item?.itemImageUrl" alt="">
+<ion-item>
+    <ion-avatar >
+        <img [src]="item?.itemImageUrl" alt="">
     </ion-avatar>
-    {{item.itemName}}
-    {{item.price | currency: 'USD'}}
-  </ion-item>
+    <ion-text >    {{item.itemName}}</ion-text>
+    <ion-text slot="end">
+        {{item.price | currency: 'USD'}}
+    </ion-text>
+</ion-item>
+
+
 
 
 
