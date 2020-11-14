@@ -1,9 +1,7 @@
 ion-item {
   --inner-box-shadow: 0 0 7px 3px #0d4492;
   margin: 2px;
-  --ripple-color: blue;
 }
-
-//ion-item:active {
-//  --background: blue;
-//}
+ion-ripple-effect {
+  color: #0066ff;
+}

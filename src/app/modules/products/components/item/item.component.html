@@ -1,14 +1,20 @@
-<ion-item class="ion-activatable">
-    <ion-avatar >
-        <img [src]="item?.itemImageUrl" alt="">
-    </ion-avatar>
-    <ion-text >    {{item.itemName}}</ion-text>
-    <ion-text slot="end">
-        {{item.price | currency: 'USD'}}
-    </ion-text>
-    <ion-ripple-effect ></ion-ripple-effect>
-</ion-item>
 
+<ion-item-sliding>
+    <ion-item class="ion-activatable" (click)="presentModal(item)">
+        <ion-avatar>
+            <img [src]="item?.itemImageUrl" alt="">
+        </ion-avatar>
+        <ion-text>    {{item.itemName}}</ion-text>
+        <ion-text slot="end">
+            {{item.price | currency: 'USD'}}
+        </ion-text>
+        <ion-ripple-effect></ion-ripple-effect>
+    </ion-item>
+
+    <ion-item-options side="end">
+        <ion-item-option (click)="addItemToCart(item)">Buy</ion-item-option>
+    </ion-item-options>
+</ion-item-sliding>
 
 
 

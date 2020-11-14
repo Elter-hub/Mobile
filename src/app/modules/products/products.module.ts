@@ -10,6 +10,7 @@ import { ProductsRoutingModule } from './products-routing.module'
 import {AllItemsComponent} from './components/all-items/all-items.component';
 import {ItemComponent} from './components/item/item.component';
 import {BrowserModule} from '@angular/platform-browser';
+import {OneItemComponent} from './components/one-item/one-item.component';
 
 @NgModule({
   providers: [],
@@ -20,6 +21,6 @@ import {BrowserModule} from '@angular/platform-browser';
     ExploreContainerComponentModule,
     ProductsRoutingModule
   ],
-  declarations: [ProductsPage, AllItemsComponent, ItemComponent]
+  declarations: [ProductsPage, AllItemsComponent, ItemComponent, OneItemComponent]
 })
 export class ProductsModule {}
