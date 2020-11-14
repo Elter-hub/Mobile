@@ -1,8 +1,5 @@
 <h1> _</h1>
-<ion-button (click)="toggleInfiniteScroll()" expand="block">
-    Toggle Infinite Scroll
-</ion-button>
-<ion-searchbar></ion-searchbar>
+<ion-searchbar #ionSearchbar (ionInput)="filterByName(ionSearchbar.value)"></ion-searchbar>
 
 <ion-content>
     <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
@@ -10,7 +7,7 @@
                 loadingSpinner="bubbles"
                 loadingText="Loading more data...">
             <ion-list >
-                    <app-item *ngFor="let i of allItems" [item]="i"></app-item>
+                    <app-item *ngFor="let i of filtered" [item]="i"></app-item>
             </ion-list>
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>

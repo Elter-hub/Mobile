@@ -45,7 +45,15 @@ export class AllItemsComponent implements OnInit {
     }, 500);
   }
 
-  toggleInfiniteScroll() {
-    this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
+  filterByName(value: string) {
+    console.log(value);
+    this.filtered = Object.assign([], this.allItems);
+    this.filter = true;
+    if (!value) {
+      this.filter = false;
+    }
+    this.filtered = this.filtered.filter(
+        item => item.itemName.toLowerCase().includes(value.toLowerCase())
+    )
   }
 }

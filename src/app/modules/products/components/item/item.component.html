@@ -1,4 +1,4 @@
-<ion-item>
+<ion-item class="ion-activatable">
     <ion-avatar >
         <img [src]="item?.itemImageUrl" alt="">
     </ion-avatar>
@@ -6,6 +6,7 @@
     <ion-text slot="end">
         {{item.price | currency: 'USD'}}
     </ion-text>
+    <ion-ripple-effect ></ion-ripple-effect>
 </ion-item>
 
 
