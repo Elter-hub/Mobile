@@ -14,9 +14,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SignUpComponent} from './modules/auth/components/signup/sign-up.component';
 import {ChangeImageComponent} from './modules/auth/components/change-image/change-image.component';
 import {AuthInterceptorService} from './auth-interceptor.service';
+import {UserChangePasswordComponent} from './modules/auth/components/user-change-password/user-change-password.component';
 
 @NgModule({
-    declarations: [AppComponent, SignUpComponent, ChangeImageComponent],
+    declarations: [AppComponent, SignUpComponent, UserChangePasswordComponent,  ChangeImageComponent],
     entryComponents: [],
     imports: [BrowserModule,
         HttpClientModule,
