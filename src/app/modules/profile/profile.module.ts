@@ -17,4 +17,4 @@ import { Tab1PageRoutingModule } from './profile-routing.module';
   ],
   declarations: [ProfilePage]
 })
-export class Tab1PageModule {}
+export class ProfileModule {}

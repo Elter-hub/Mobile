@@ -18,4 +18,4 @@ import { Tab2PageRoutingModule } from './cart-routing.module';
   ],
   declarations: [CartPage]
 })
-export class Tab2PageModule {}
+export class CartModule {}

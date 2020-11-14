@@ -10,15 +10,15 @@ const routes: Routes = [
     children: [
       {
         path: 'profile',
-        loadChildren: () => import('../modules/profile/profile.module').then(m => m.Tab1PageModule)
+        loadChildren: () => import('../modules/profile/profile.module').then(m => m.ProfileModule)
       },
       {
         path: 'cart',
-        loadChildren: () => import('../modules/cart/cart.module').then(m => m.Tab2PageModule)
+        loadChildren: () => import('../modules/cart/cart.module').then(m => m.CartModule)
       },
       {
         path: 'products',
-        loadChildren: () => import('../modules/products/products.module').then(m => m.Tab3PageModule)
+        loadChildren: () => import('../modules/products/products.module').then(m => m.ProductsModule)
       },
 
       {path: '', redirectTo: '/tabs/products', pathMatch: 'full'}]},

@@ -1,0 +1,20 @@
+<ion-content>
+    <ion-button (click)="toggleInfiniteScroll()" expand="block">
+        Toggle Infinite Scroll
+    </ion-button>
+
+    <ion-list></ion-list>
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content
+                loadingSpinner="bubbles"
+                loadingText="Loading more data...">
+            <div  *ngFor="let i of allItems">
+                <ion-item >
+                    <app-item [item]="i"></app-item>
+                    777
+                </ion-item>
+            </div>
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>

@@ -15,6 +15,7 @@ import {SignUpComponent} from './modules/auth/components/signup/sign-up.componen
 import {ChangeImageComponent} from './modules/auth/components/change-image/change-image.component';
 import {AuthInterceptorService} from './auth-interceptor.service';
 import {UserChangePasswordComponent} from './modules/auth/components/user-change-password/user-change-password.component';
+import {CommonModule} from '@angular/common';
 
 @NgModule({
     declarations: [AppComponent, SignUpComponent, UserChangePasswordComponent,  ChangeImageComponent],
@@ -22,6 +23,7 @@ import {UserChangePasswordComponent} from './modules/auth/components/user-change
     imports: [BrowserModule,
         HttpClientModule,
         FormsModule,
+        CommonModule,
         ReactiveFormsModule,
         IonicModule.forRoot(),
         IonicStorageModule.forRoot(),
