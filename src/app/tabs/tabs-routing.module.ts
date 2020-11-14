@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import {SignUpComponent} from '../modules/auth/components/signup/sign-up.component';
 
 const routes: Routes = [
   {
@@ -20,16 +21,14 @@ const routes: Routes = [
         loadChildren: () => import('../modules/products/products.module').then(m => m.Tab3PageModule)
       },
 
-      {
-        path: '',
-        redirectTo: '/tabs/products',
-        pathMatch: 'full'
-      }
-    ]
-  },
+      {path: '', redirectTo: '/tabs/products', pathMatch: 'full'}]},
   {
     path: 'login',
     loadChildren: () => import('../modules/auth/components/login/login.module').then(m => m.LoginPageModule)
+  },
+  {
+    path: 'signup',
+    component: SignUpComponent
   },
   {
     path: '',

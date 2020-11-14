@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {User} from '../../models/user';
 import {UserService} from '../shared/services/user.service';
 import {StorageService} from '../shared/services/storage.service';
+import {MenuController, PopoverController} from '@ionic/angular';
+import {ChangeImageComponent} from '../auth/components/change-image/change-image.component';
 
 @Component({
   selector: 'app-tab1',
@@ -12,6 +14,8 @@ export class ProfilePage implements OnInit{
   user: User;
   isLogged: boolean;
   constructor(private userService: UserService,
+              private menu: MenuController,
+              public popoverController: PopoverController,
               private storageService: StorageService) {}
 
   ngOnInit(): void {
@@ -30,4 +34,24 @@ export class ProfilePage implements OnInit{
     })
   }
 
+  openFirst() {
+    this.menu.enable(true, 'first');
+    this.menu.open('first');
+  }
+
+  async changeImage() {
+      const popover = await this.popoverController.create({
+        component: ChangeImageComponent,
+        cssClass: 'my-custom-class',
+        translucent: true,
+        componentProps: {
+          email: this.user.userEmail
+        }
+      });
+      return await popover.present();
+    }
+
+  changePassword() {
+
+  }
 }

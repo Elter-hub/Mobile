@@ -11,3 +11,12 @@ export interface User {
     imageUrl?: string;
     cart?: Cart;
 }
+
+export interface ForgotPasswordResponse {
+    message: string;
+}
+
+export interface Tokens {
+    accessToken: string;
+    refreshToken: string;
+}
