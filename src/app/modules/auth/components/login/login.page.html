@@ -34,11 +34,13 @@
                     Login
                   </ion-button>
                   <ion-button routerLink="/signup" color="tertiary" fill="outline" expand="block">Sign up</ion-button>
-                  <ion-button (click)="showFields = !showFields" color="warning" fill="clear" expand="block">Forgot Password?</ion-button>
+                  <ion-button (click)="showFields = !showFields"
+                              color="warning" fill="clear" expand="block">Forgot Password?</ion-button>
                 </ion-col>
             </ion-row>
         </ion-grid>
     </form>
+    <ion-button *ngIf="showFields" (click)="showFields = !showFields">Back</ion-button>
     <ion-text align="center"  color="secondary" *ngIf="showFields">
         <h3>Please fill the form bellow to recover your password. </h3>
     </ion-text>
