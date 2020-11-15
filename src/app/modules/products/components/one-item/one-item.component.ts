@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Item} from '../../../../models/cart';
-import {ModalController, NavParams} from '@ionic/angular';
+import {ModalController, NavParams, ToastController} from '@ionic/angular';
 import {UserService} from '../../../shared/services/user.service';
 import {StorageService} from '../../../shared/services/storage.service';
 import {User} from '../../../../models/user';
@@ -20,7 +20,7 @@ export class OneItemComponent implements OnInit {
               private userService: UserService,
               private itemService: ItemService,
               private storageService: StorageService,
-
+              public toastController: ToastController,
               public modalController: ModalController,
               private activatedRoute: ActivatedRoute) { }
 
@@ -40,11 +40,21 @@ export class OneItemComponent implements OnInit {
   addToCard(item: Item) {
     this.itemService.addItemToCart(this.user.userEmail, item.itemId, true).subscribe(data => {
       console.log(data);
+      this.presentToast();
       this.user.cart.items = data.items.sort((first, second) => first.itemId > second.itemId ? 1 : -1)
     }, error => {
       console.log(error);
     })
     this.storageService.saveUser(this.user)
     this.userService.userSubject.next(this.user);
+  }
+
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Item was successively added to your cart🛒',
+      duration: 1000,
+      color: 'success'
+    });
+    toast.present();
   }
 }

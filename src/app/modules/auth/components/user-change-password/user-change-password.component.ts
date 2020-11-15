@@ -14,6 +14,7 @@ export class UserChangePasswordComponent implements OnInit {
     confirmationForm: FormGroup;
     userEmail: string;
     showConfirmationForm: boolean;
+    showSpinner: boolean;
 
     constructor(private formBuilder: FormBuilder,
                 private userActionService: UserActionService,
@@ -35,15 +36,18 @@ export class UserChangePasswordComponent implements OnInit {
     }
 
     userChangePassword() {
+        this.showSpinner = true;
         this.userActionService.userChangePassword(this.navParams.get('email'),
             this.changePasswordForm.value.oldPassword,
             this.changePasswordForm.value.newPassword)
             .subscribe(data => {
+                    this.showSpinner = false;
                     this.showConfirmationForm = true;
                     console.log(data);
                     console.log('🥰');
                 },
                 error => {
+                    this.showSpinner = false;
                     console.log('🥶');
                     console.log(error);
                 });

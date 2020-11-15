@@ -48,6 +48,7 @@ export class ProfilePage implements OnInit {
 
     async changePassword() {
         await this.showPopOver(UserChangePasswordComponent);
+
     }
 
     async showPopOver(component) {
