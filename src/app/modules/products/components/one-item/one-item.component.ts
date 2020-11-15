@@ -38,13 +38,13 @@ export class OneItemComponent implements OnInit {
   }
 
   addToCard(item: Item) {
-
-    this.itemService.addItemToCart(this.user.userEmail, item.itemId).subscribe(data => {
+    this.itemService.addItemToCart(this.user.userEmail, item.itemId, true).subscribe(data => {
       console.log(data);
-      this.user.cart.items = data.items
+      this.user.cart.items = data.items.sort((first, second) => first.itemId > second.itemId ? 1 : -1)
     }, error => {
       console.log(error);
     })
+    this.storageService.saveUser(this.user)
     this.userService.userSubject.next(this.user);
   }
 }

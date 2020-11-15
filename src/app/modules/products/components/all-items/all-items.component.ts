@@ -22,14 +22,11 @@ export class AllItemsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getItemService.getAllItems().subscribe(data => {
-      console.log(data);
       this.filtered = data;
       this.allItems = data
     }, error => {
       console.log(error);
     })
-
-    this.activatedRoute.data.subscribe(data => console.log(data))
   }
 
   loadData(event) {

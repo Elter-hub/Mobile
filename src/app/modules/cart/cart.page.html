@@ -10,10 +10,10 @@
                     <ion-text>    {{item.itemName}}</ion-text>
                     <ion-text slot="end">    {{item.addedToCart}}x</ion-text>
                     <ion-buttons slot="end">
-                        <ion-button fill="clear" color="secondary">
+                        <ion-button (click)="oneMoreItem(item, true)" fill="clear" color="secondary">
                             <h2>+</h2>
                         </ion-button>
-                        <ion-button fill="clear" color="secondary">
+                        <ion-button (click)="oneMoreItem(item, false)" fill="clear" color="secondary">
                             <h2>-</h2>
                         </ion-button>
                     </ion-buttons>
@@ -25,7 +25,7 @@
                 </ion-item>
 
                 <ion-item-options side="end" >
-                    <ion-item-option color="danger" (click)="remove(item)">X</ion-item-option>
+                    <ion-item-option color="danger" (click)="removeItemFromCart(item.itemId)">X</ion-item-option>
                 </ion-item-options>
             </ion-item-sliding>
         </div>
