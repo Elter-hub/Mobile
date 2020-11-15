@@ -1,5 +1,13 @@
 <h1> _</h1>
-<ion-searchbar #ionSearchbar (ionInput)="filterByName(ionSearchbar.value)"></ion-searchbar>
+<ion-searchbar color="light" #ionSearchbar (ionInput)="filterByName(ionSearchbar.value)"></ion-searchbar>
+
+<ion-item>
+    <ion-range #ionRange id="dual-range" (ionChange)="filterByPrice(ionRange.value.lower, ionRange.value.upper)"
+               dual-knobs pin color="dark">
+        <ion-icon slot="start" size="small" name="cash-outline"></ion-icon>
+        <ion-icon slot="end" name="card-outline"></ion-icon>
+    </ion-range>
+</ion-item>
 
 <ion-content>
     <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">

@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {GetItemsService} from '../../services/get-items.service';
 import {Item} from '../../../../models/cart';
-import { IonInfiniteScroll } from '@ionic/angular';
+import {IonInfiniteScroll, IonRange} from '@ionic/angular';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
@@ -56,4 +56,15 @@ export class AllItemsComponent implements OnInit {
         item => item.itemName.toLowerCase().includes(value.toLowerCase())
     )
   }
+
+  filterByPrice(lower: number, upper: number) {
+    this.filtered = Object.assign([], this.allItems);
+    this.filter = true;
+    if (lower == 100 || upper == 0) {
+      this.filter = false;
+    }
+    this.filtered = this.filtered.filter(
+        item => item.price > lower && item.price < upper
+    )
+    }
 }
