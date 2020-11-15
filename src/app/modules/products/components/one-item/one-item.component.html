@@ -15,4 +15,5 @@
             {{item.price | currency: 'USD'}}
         </ion-card-content>
     </ion-card>
+    <ion-button *ngIf="user" (click)="addToCard(item)">Add to card</ion-button>
 </ion-content>

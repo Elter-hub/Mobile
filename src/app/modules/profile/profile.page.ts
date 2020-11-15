@@ -30,7 +30,6 @@ export class ProfilePage implements OnInit {
                 this.storageService.getUser().then(data => {
                     this.user = data;
                     this.userService.changeIsLogged();
-                    console.log(data);
                 });
             } else {
                 this.user = user;

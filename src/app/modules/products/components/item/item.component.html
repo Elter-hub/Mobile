@@ -5,6 +5,7 @@
             <img [src]="item?.itemImageUrl" alt="">
         </ion-avatar>
         <ion-text>    {{item.itemName}}</ion-text>
+        <ion-text slot="end">    {{quantityInCart}}x  </ion-text>
         <ion-text slot="end">
             {{item.price | currency: 'USD'}}
         </ion-text>

@@ -11,6 +11,7 @@ import {OneItemComponent} from '../one-item/one-item.component';
 })
 export class ItemComponent implements OnInit {
   @Input() item: Item;
+  @Input() quantityInCart: any;
   constructor(private router: Router,
               public modalController: ModalController) { }
 

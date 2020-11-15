@@ -14,4 +14,5 @@ export interface Item {
     description: string;
     stars: number;
     quantity: number;
+    addedToCart: number;
 }
