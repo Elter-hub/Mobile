@@ -7,6 +7,7 @@ import {StorageService} from '../../../shared/services/storage.service';
 import {UserService} from '../../../shared/services/user.service';
 import {log} from 'util';
 import {LoadingController} from '@ionic/angular';
+import {User} from '../../../../models/user';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class LoginPage implements OnInit {
     showTokenConfirmation: boolean;
     userForgotPasswordForm: FormGroup;
     successMessage: string;
+    user: User;
 
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
@@ -66,10 +68,9 @@ export class LoginPage implements OnInit {
                 console.log(data);
                 this.isLoginFailed = false;
                 this.storageService.saveTokens(data.accessToken, data.refreshToken);
-                let user = this.userService.createUser(data.id, data.imageUrl, data.cart,
+                this.user = this.userService.createUser(data.id, data.imageUrl, data.cart,
                     data.roles, data.userAge, data.userEmail, data.userLastName, data.userName, data.userNickName);
-                this.storageService.saveUser(user);
-                this.userService.changeIsLogged();
+                this.storageService.saveUser(this.user);
                 setTimeout(() => {
                     this.router.navigate(['tabs/profile']);
                 }, 1000);
@@ -82,6 +83,7 @@ export class LoginPage implements OnInit {
                 this.isLoginFailed = true;
             }
         );
+        this.userService.userSubject.next(this.user);
     }
 
     forgotPassword(value: any) {

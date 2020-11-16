@@ -1,21 +1,37 @@
 <h1> _</h1>
+
 <ion-searchbar color="light" #ionSearchbar (ionInput)="filterByName(ionSearchbar.value)"></ion-searchbar>
 
+
 <ion-item>
-    <ion-range #ionRange id="dual-range" (ionChange)="filterByPrice(ionRange.value.lower, ionRange.value.upper)"
-               dual-knobs  snaps="true" ticks="true" pin color="dark">
-        <ion-icon slot="start" size="small" name="cash-outline"></ion-icon>
-        <ion-icon slot="end" name="card-outline"></ion-icon>
-    </ion-range>
+    <ion-grid>
+        <ion-row>
+            <ion-col size-md="6" offset-sm="3">
+                <ion-range #ionRange id="dual-range"
+                           (ionChange)="filterByPrice(ionRange.value.lower, ionRange.value.upper)"
+                           dual-knobs snaps="true" ticks="true" pin color="dark">
+                    <ion-icon slot="start" size="small" name="cash-outline"></ion-icon>
+                    <ion-icon slot="end" name="card-outline"></ion-icon>
+                </ion-range>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-item>
+
 
 <ion-content>
     <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
         <ion-infinite-scroll-content
                 loadingSpinner="bubbles"
                 loadingText="Loading more data...">
-            <ion-list >
-                    <app-item *ngFor="let i of filtered" [item]="i"></app-item>
+            <ion-list>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size-md="6" offset-sm="3">
+                            <app-item *ngFor="let i of filtered" [item]="i"></app-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
             </ion-list>
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>

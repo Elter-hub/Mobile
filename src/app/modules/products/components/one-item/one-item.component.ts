@@ -21,8 +21,7 @@ export class OneItemComponent implements OnInit {
               private itemService: ItemService,
               private storageService: StorageService,
               public toastController: ToastController,
-              public modalController: ModalController,
-              private activatedRoute: ActivatedRoute) { }
+              public modalController: ModalController) { }
 
   ngOnInit() {
     this.item = this.navsParam.get('item');
@@ -42,11 +41,12 @@ export class OneItemComponent implements OnInit {
       console.log(data);
       this.presentToast();
       this.user.cart.items = data.items.sort((first, second) => first.itemId > second.itemId ? 1 : -1)
+      this.storageService.saveUser(this.user)
+      this.userService.userSubject.next(this.user);
     }, error => {
       console.log(error);
     })
-    this.storageService.saveUser(this.user)
-    this.userService.userSubject.next(this.user);
+
   }
 
   async presentToast() {
