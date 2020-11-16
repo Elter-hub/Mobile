@@ -2,9 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from '../shared/services/user.service';
 import {Item} from '../../models/cart';
 import {StorageService} from '../shared/services/storage.service';
-import {isEmpty} from 'rxjs/operators';
 import {ItemService} from '../products/services/item.service';
 import {User} from '../../models/user';
+import {ModalController} from '@ionic/angular';
+import {PaymentFormComponent} from './components/payment-form/payment-form.component';
+
+declare var Stripe
 
 @Component({
     selector: 'app-tab2',
@@ -19,12 +22,14 @@ export class CartPage implements OnInit {
 
     constructor(private userService: UserService,
                 private itemService: ItemService,
+                public modalController: ModalController,
                 private storageService: StorageService ) {
     }
 
     ngOnInit(): void {
         this.userService.currentUser.subscribe(userSubject => {
-            if (userSubject == {}){
+            console.log(userSubject);
+            if (Object.keys(this.userService.userSubject.getValue()).length !== 0){
                 console.log('IF INIT FROM STORAGE');
                 this.user = userSubject;
                 console.log(userSubject);
@@ -36,9 +41,11 @@ export class CartPage implements OnInit {
             }else {
                 console.log('ELSE INIT ');
                 this.storageService.getUser().then(userFromStorage => {
+                    console.log(userFromStorage);
                     this.cart = userFromStorage.cart.items.sort((first, second) => first.itemId > second.itemId ? 1 : -1)
                     this.userEmail = userFromStorage.userEmail;
                     this.user = userFromStorage;
+                    this.userService.userSubject.next(this.user);
                     this.sum = 0;
                     this.cart.forEach(item => this.sum += item.price * item.addedToCart)
                 })
@@ -52,16 +59,10 @@ export class CartPage implements OnInit {
 
     oneMoreItem(item: Item, addOrRemove: boolean) {
         this.itemService.addItemToCart(this.userEmail, item.itemId, addOrRemove).subscribe(data => {
-            console.log(data);
-            console.log('🥰');
             this.cart = data.items.sort((first, second) => first.itemId > second.itemId ? 1 : -1)
-            console.log('🥰🥰');
-
             this.user.cart.items = this.cart
-            console.log('🥰🥰🥰');
-            this.userService.userSubject.next(this.user);
-
             this.storageService.saveUser(this.user)
+            this.userService.userSubject.next(this.user);
             this.sum = 0;
             this.cart.forEach(item => this.sum += item.price * item.addedToCart)
 
@@ -75,14 +76,23 @@ export class CartPage implements OnInit {
             console.log(data);
             this.cart = data.items.sort((first, second) => first.itemId > second.itemId ? 1 : -1)
             this.user.cart.items = this.cart
-            this.userService.userSubject.next(this.user);
-
             this.storageService.saveUser(this.user)
-
+            this.userService.userSubject.next(this.user);
             this.sum = 0;
             this.cart.forEach(item => this.sum += item.price * item.addedToCart)
         }, error => {
             console.log(error);
         })
+    }
+
+    async buyItems() {
+        const modal = await this.modalController.create({
+            component: PaymentFormComponent,
+            cssClass: 'my-custom-class',
+            componentProps: {
+                'amount': this.sum
+            }
+        });
+        return await modal.present();
     }
 }

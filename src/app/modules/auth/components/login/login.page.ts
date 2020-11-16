@@ -70,6 +70,8 @@ export class LoginPage implements OnInit {
                 this.storageService.saveTokens(data.accessToken, data.refreshToken);
                 this.user = this.userService.createUser(data.id, data.imageUrl, data.cart,
                     data.roles, data.userAge, data.userEmail, data.userLastName, data.userName, data.userNickName);
+                console.log(this.user);
+                this.userService.userSubject.next(this.user)
                 this.storageService.saveUser(this.user);
                 setTimeout(() => {
                     this.router.navigate(['tabs/profile']);
