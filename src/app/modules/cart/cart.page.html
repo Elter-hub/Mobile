@@ -1,5 +1,5 @@
 <h1>_</h1>
-<ion-content>
+<ion-content *ngIf="cart">
     <ion-list>
         <div *ngFor="let item of cart">
             <ion-item-sliding>
@@ -34,4 +34,6 @@
        <h2 align="center" > Total sum {{sum}} </h2>
     </ion-text>
     <ion-button (click)="buyItems()" strong="true" size="small" expand="block">Buy</ion-button>
+
+    <ion-label *ngIf="!cart">Your cart is empty</ion-label>
 </ion-content>

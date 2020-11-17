@@ -48,6 +48,7 @@ export class UserChangePasswordComponent implements OnInit {
                 },
                 error => {
                     this.showSpinner = false;
+                    this.presentAlert(error.error.message, true)
                     console.log('🥶');
                     console.log(error);
                 });
@@ -60,9 +61,11 @@ export class UserChangePasswordComponent implements OnInit {
             .subscribe(data => {
                 console.log(data);
                 this.dismissPopOver();
-                this.presentAlert();
+                this.presentAlert('Password was successfully changed', true);
             }, error => {
                 console.log(error);
+                this.dismissPopOver();
+                this.presentAlert(error.error.message, false);
             });
     }
 
@@ -74,10 +77,11 @@ export class UserChangePasswordComponent implements OnInit {
         await this.alertCtrl.dismiss();
     }
 
-    async presentAlert() {
+    async presentAlert(message: string, success?: boolean) {
         const alert = await this.alertCtrl.create({
-            header: 'Password was successfully changed',
-            buttons: ['OK']
+            header: message,
+            buttons: ['OK'],
+            cssClass: success ? 'myAlertSuccess': 'myAlertFailure'
         });
         await alert.present();
         setTimeout(() => {

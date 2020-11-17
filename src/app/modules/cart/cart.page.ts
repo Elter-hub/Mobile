@@ -32,16 +32,12 @@ export class CartPage implements OnInit {
             if (Object.keys(this.userService.userSubject.getValue()).length !== 0){
                 console.log('IF INIT FROM STORAGE');
                 this.user = userSubject;
-                console.log(userSubject);
                 this.userEmail = userSubject.userEmail;
-                console.log(this.user.cart.items);
                 this.cart = userSubject.cart.items.sort((first, second) => first.itemId > second.itemId ? 1 : -1);
                 this.sum = 0;
                 userSubject.cart.items.forEach(item => this.sum += item.price * item.addedToCart)
             }else {
-                console.log('ELSE INIT ');
                 this.storageService.getUser().then(userFromStorage => {
-                    console.log(userFromStorage);
                     this.cart = userFromStorage.cart.items.sort((first, second) => first.itemId > second.itemId ? 1 : -1)
                     this.userEmail = userFromStorage.userEmail;
                     this.user = userFromStorage;

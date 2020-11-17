@@ -32,9 +32,13 @@ export class ChangeImageComponent implements OnInit {
       user.imageUrl = value.url;
       this.userService.userSubject.next(user);
       console.log(data);
-    }, error => console.log(error))
-    this.dismissPopOver();
-    this.presentAlert();
+      this.dismissPopOver();
+      this.presentAlert(true, '');
+    }, error => {
+        console.log(error.error.message)
+        this.dismissPopOver();
+        this.presentAlert(false, error.error.message,);
+  })
   }
 
   async dismissPopOver() {
@@ -45,10 +49,12 @@ export class ChangeImageComponent implements OnInit {
     await this.alertCtrl.dismiss();
   }
 
-  async presentAlert() {
+  async presentAlert(success?: boolean, message?: string) {
+    console.log(message);
     const alert = await this.alertCtrl.create({
-      header: 'Image was successfully changed',
-      buttons: ['OK']
+      header: message !== '' ? 'Failure!! \nPlease check your URL' :'Image was successfully changed',
+      buttons: ['OK'],
+      cssClass: success ? 'myAlertSuccess': 'myAlertFailure'
     });
     await alert.present();
     setTimeout(() => {

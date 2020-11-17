@@ -6,7 +6,7 @@ import {Storage} from '@ionic/storage';
 import {StorageService} from '../../../shared/services/storage.service';
 import {UserService} from '../../../shared/services/user.service';
 import {log} from 'util';
-import {LoadingController} from '@ionic/angular';
+import {AlertController, LoadingController} from '@ionic/angular';
 import {User} from '../../../../models/user';
 
 
@@ -18,7 +18,7 @@ import {User} from '../../../../models/user';
 export class LoginPage implements OnInit {
     loginForm: FormGroup;
     isLoggedIn = false;
-    isLoginFailed = false;
+    isLoginFailed: boolean;
     errorMessage = '';
     roles: string[] = [];
     showFields: boolean;
@@ -30,7 +30,8 @@ export class LoginPage implements OnInit {
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
-                private loadingController: LoadingController,
+                private loadingCtrl: LoadingController,
+                private alertCtrl: AlertController,
                 private authService: AuthService,
                 private userService: UserService,
                 private storageService: StorageService,
@@ -60,13 +61,11 @@ export class LoginPage implements OnInit {
 
     onSubmit() {
         this.presentLoading();
-
         this.loginService.login(this.loginForm.value).subscribe(
             data => {
-                this.loadingController.dismiss();
-
+                console.log("SUBSCRIBE");
+                this.loadingCtrl.dismiss();
                 console.log(data);
-                this.isLoginFailed = false;
                 this.storageService.saveTokens(data.accessToken, data.refreshToken);
                 this.user = this.userService.createUser(data.id, data.imageUrl, data.cart,
                     data.roles, data.userAge, data.userEmail, data.userLastName, data.userName, data.userNickName);
@@ -78,14 +77,18 @@ export class LoginPage implements OnInit {
                 }, 1000);
             },
             error => {
+                console.log("ERROR");
                 console.log(error);
-                this.loadingController.dismiss();
-
+                this.isLoginFailed = true;
+                this.loadingCtrl.dismiss();
+                this.presentAlert()
                 this.errorMessage = error.error.message;
                 this.isLoginFailed = true;
             }
         );
-        this.userService.userSubject.next(this.user);
+        if (this.isLoginFailed) {
+            this.userService.userSubject.next(this.user);
+        }
     }
 
     forgotPassword(value: any) {
@@ -94,13 +97,14 @@ export class LoginPage implements OnInit {
                 console.log(data);
             },
             error => {
+
                 this.errorMessage = error.error.message;
                 console.log(error.error.message);
             });
     }
 
     async presentLoading() {
-        const loading = await this.loadingController.create({
+        const loading = await this.loadingCtrl.create({
             cssClass: 'my-custom-class',
             message: 'Please wait...',
             spinner: 'bubbles',
@@ -109,5 +113,21 @@ export class LoginPage implements OnInit {
 
         const { role, data } = await loading.onDidDismiss();
         console.log('Loading dismissed!');
+    }
+
+    async dismissAlert() {
+        await this.alertCtrl.dismiss();
+    }
+
+    async presentAlert() {
+        const alert = await this.alertCtrl.create({
+            header: 'Failure!! \nYour email or password is incorrect',
+            buttons: ['OK'],
+            cssClass: 'myAlertFailure'
+        });
+        await alert.present();
+        setTimeout(() => {
+            this.dismissAlert()
+        }, 1500)
     }
 }
