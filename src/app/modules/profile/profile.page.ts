@@ -15,6 +15,7 @@ import {NgClass} from '@angular/common';
 export class ProfilePage implements OnInit {
     user: User;
     isLogged: boolean;
+    fromStorage: boolean;
 
     constructor(private userService: UserService,
                 private menu: MenuController,
@@ -23,18 +24,20 @@ export class ProfilePage implements OnInit {
     }
 
     ngOnInit(): void {
-        this.userService.isLogged.subscribe(data => this.isLogged = data);
         this.userService.currentUser.subscribe(user => {
-            console.log(user);
-            if (!this.isLogged) {
+            console.log(Object.keys(user).length +'🔑');
+            if (Object.keys(user).length !== 0) {
+                this.user = user;
+            } else {
+                console.log('User from service');
+                this.user = user;
                 this.storageService.getUser().then(data => {
                     this.user = data;
-                    this.userService.changeIsLogged();
+                    this.userService.userSubject.next(this.user);
                 });
-            } else {
-                this.user = user;
             }
         });
+
     }
 
     openFirst() {

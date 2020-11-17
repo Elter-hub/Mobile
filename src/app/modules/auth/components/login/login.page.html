@@ -58,14 +58,6 @@
                         <ion-label position="floating">Email</ion-label>
                         <ion-input type="email" [formControl]="forgot.control.get('userEmail')" required></ion-input>
                     </ion-item>
-<!--                    <ion-item>-->
-<!--                        <ion-label position="floating">Password</ion-label>-->
-<!--                        <ion-input type="email" [formControl]="forgot.control.get('userPassword')" required></ion-input>-->
-<!--                    </ion-item>-->
-<!--                    <ion-item>-->
-<!--                        <ion-label position="floating">Confirm Password</ion-label>-->
-<!--                        <ion-input type="email" [formControl]="forgot.control.get('userConfirmPassword')" required></ion-input>-->
-<!--                    </ion-item>-->
                     <ion-button type="submit" color="primary" expand="block" [disabled]="!forgot.valid">Recover</ion-button>
                 </ion-col>
             </ion-row>
@@ -74,3 +66,4 @@
     <ion-text align="center"  color="warning" *ngIf="showFields"><h3>{{errorMessage}}</h3></ion-text>
     <ion-text align="center"  color="primary" *ngIf="showFields"><h3>{{successMessage}}</h3></ion-text>
 </ion-content>
+

@@ -48,8 +48,8 @@ export class LoginPage implements OnInit {
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
-            userEmail: ['', [Validators.required]],
-            userPassword: ['', [Validators.required]],
+            userEmail: ['ihor04@gmail.com', [Validators.required]],
+            userPassword: ['Superuser123', [Validators.required]],
         });
 
         this.userForgotPasswordForm = this.formBuilder.group({
@@ -86,9 +86,6 @@ export class LoginPage implements OnInit {
                 this.isLoginFailed = true;
             }
         );
-        if (this.isLoginFailed) {
-            this.userService.userSubject.next(this.user);
-        }
     }
 
     forgotPassword(value: any) {

@@ -30,7 +30,6 @@ export class CartPage implements OnInit {
         this.userService.currentUser.subscribe(userSubject => {
             console.log(userSubject);
             if (Object.keys(this.userService.userSubject.getValue()).length !== 0){
-                console.log('IF INIT FROM STORAGE');
                 this.user = userSubject;
                 this.userEmail = userSubject.userEmail;
                 this.cart = userSubject.cart.items.sort((first, second) => first.itemId > second.itemId ? 1 : -1);

@@ -29,7 +29,6 @@ export class TabsPage implements OnInit {
                 this.isLogin = true;
                 this.showTabsIcons = true;
                 this.storageService.saveUser(user)
-
             } else {
                 console.log('🥶');
                 this.storageService.getUser().then(userFromStorage => {
