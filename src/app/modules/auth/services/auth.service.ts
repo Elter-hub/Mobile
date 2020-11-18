@@ -39,7 +39,6 @@ export class AuthService {
     }
 
     forgotPassword(email: string): Observable<ForgotPasswordResponse> {
-        console.log(AUTH_API + 'forgot-password');
         return this.http.post<ForgotPasswordResponse>(AUTH_API + 'forgot-password', {
             emailForRecoveringPassword: email
         });
@@ -75,7 +74,6 @@ export class AuthService {
     }
 
     confirmEmail(emailConfirmationToken: string) {
-        console.log(emailConfirmationToken);
         return this.http.post(AUTH_API + 'auth/confirm',
             {
                 emailConfirmationToken: emailConfirmationToken

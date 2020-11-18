@@ -25,11 +25,9 @@ export class ProfilePage implements OnInit {
 
     ngOnInit(): void {
         this.userService.currentUser.subscribe(user => {
-            console.log(Object.keys(user).length +'🔑');
             if (Object.keys(user).length !== 0) {
                 this.user = user;
             } else {
-                console.log('User from service');
                 this.user = user;
                 this.storageService.getUser().then(data => {
                     this.user = data;
@@ -37,7 +35,6 @@ export class ProfilePage implements OnInit {
                 });
             }
         });
-
     }
 
     openFirst() {

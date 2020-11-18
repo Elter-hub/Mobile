@@ -6,9 +6,10 @@ import {Storage} from '@ionic/storage';
 import {StorageService} from '../../../shared/services/storage.service';
 import {UserService} from '../../../shared/services/user.service';
 import {log} from 'util';
-import {AlertController, LoadingController, PopoverController} from '@ionic/angular';
+import {AlertController, LoadingController, PopoverController, ToastController} from '@ionic/angular';
 import {User} from '../../../../models/user';
 import {ConfirmEmailComponent} from '../confirm-email/confirm-email.component';
+import set = Reflect.set;
 
 
 @Component({
@@ -18,22 +19,29 @@ import {ConfirmEmailComponent} from '../confirm-email/confirm-email.component';
 })
 export class LoginPage implements OnInit {
     loginForm: FormGroup;
+    newPasswordForm: FormGroup;
+    userForgotPasswordForm: FormGroup;
+
     isLoggedIn = false;
     isLoginFailed: boolean;
     errorMessage = '';
     roles: string[] = [];
     showFields: boolean;
     showTokenConfirmation: boolean;
-    userForgotPasswordForm: FormGroup;
     successMessage: string;
     user: User;
+    showTokenEmail: boolean;
+    showSuccessMessage:boolean;
+    showFailureMessage:boolean;
+    showEmailForm = true;
 
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
                 private loadingCtrl: LoadingController,
                 private alertCtrl: AlertController,
-                public popoverController: PopoverController,
+                private popoverController: PopoverController,
+                private toastController: ToastController,
                 private authService: AuthService,
                 private userService: UserService,
                 private storageService: StorageService,
@@ -55,9 +63,13 @@ export class LoginPage implements OnInit {
         });
 
         this.userForgotPasswordForm = this.formBuilder.group({
-            userEmail: ['', [Validators.required]],
-            // userPassword: ['', [Validators.required]],
-            // userConfirmPassword: ['', [Validators.required]],
+            userEmail: ['ihor04@gmail.com', [Validators.required]],
+        });
+
+        this.newPasswordForm = this.formBuilder.group({
+            token: ['', [Validators.required]],
+            newPassword: ['Qaz12345', [Validators.required]],
+            confirmNewPassword: ['Qaz12345', [Validators.required]],
         });
     }
 
@@ -65,13 +77,10 @@ export class LoginPage implements OnInit {
         this.presentLoading();
         this.loginService.login(this.loginForm.value).subscribe(
             data => {
-                console.log("SUBSCRIBE");
                 this.loadingCtrl.dismiss();
-                console.log(data);
                 this.storageService.saveTokens(data.accessToken, data.refreshToken);
                 this.user = this.userService.createUser(data.id, data.imageUrl, data.cart,
                     data.roles, data.userAge, data.userEmail, data.userLastName, data.userName, data.userNickName, data.isEnabled);
-                console.log(this.user);
                 this.userService.userSubject.next(this.user)
                 this.storageService.saveUser(this.user);
                 setTimeout(() => {
@@ -83,8 +92,6 @@ export class LoginPage implements OnInit {
                 }, 1000);
             },
             error => {
-                console.log("ERROR");
-                console.log(error);
                 this.isLoginFailed = true;
                 this.loadingCtrl.dismiss();
                 this.presentAlert()
@@ -95,12 +102,25 @@ export class LoginPage implements OnInit {
     }
 
     forgotPassword(value: any) {
+        this.presentLoading();
         this.authService.forgotPassword(value.userEmail).subscribe(data => {
+                this.loadingCtrl.dismiss();
                 this.successMessage = data.message;
-                console.log(data);
+                this.showTokenEmail = true;
+                this.showSuccessMessage = true;
+                this.showEmailForm = false;
+
+                setTimeout(() => {
+                    this.showSuccessMessage = false;
+                }, 3000)
             },
             error => {
+                this.loadingCtrl.dismiss();
                 this.errorMessage = error.error.message;
+                this.showFailureMessage = true;
+                setTimeout(() => {
+                    this.showFailureMessage = false;
+                }, 3000)
                 console.log(error.error.message);
             });
     }
@@ -114,7 +134,6 @@ export class LoginPage implements OnInit {
         await loading.present();
 
         const { role, data } = await loading.onDidDismiss();
-        console.log('Loading dismissed!');
     }
 
     async dismissAlert() {
@@ -138,5 +157,31 @@ export class LoginPage implements OnInit {
             component: ConfirmEmailComponent,
         });
         return await popover.present();
+    }
+
+    setNewPassword(value: any) {
+        this.presentLoading()
+        this.authService.changePassword(value.newPassword, value.token, this.userForgotPasswordForm.get('userEmail').value).subscribe(data => {
+            this.loadingCtrl.dismiss();
+            this.presentToast()
+            setTimeout(() => {
+                this.showTokenEmail = false;
+                this.showFields = false;
+            }, 2000)
+
+        }, error => {
+            console.log(error);
+            this.loadingCtrl.dismiss();
+        })
+        return false;
+    }
+
+    async presentToast() {
+        const toast = await this.toastController.create({
+            message: 'Password was successively changed',
+            duration: 1500,
+            color: 'success'
+        });
+        toast.present();
     }
 }

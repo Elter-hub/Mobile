@@ -12,8 +12,6 @@ export class UserActionService {
   constructor(private http: HttpClient) { }
 
   changeImageUrl(imageUrl: string, userEmail: string){
-    console.log(imageUrl);
-    console.log(userEmail);
     return this.http.put(API_URL + "user/change-image", {
       imageUrl: imageUrl,
       userEmail: userEmail

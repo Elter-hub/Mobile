@@ -22,18 +22,13 @@ export class TabsPage implements OnInit {
 
     ngOnInit(): void {
         this.userService.userSubject.subscribe(user => {
-            console.log(user);
             if (user !== {}) {
-                console.log('🥰');
                 this.user = user;
                 this.isLogin = true;
                 this.showTabsIcons = true;
                 this.storageService.saveUser(user)
             } else {
-                console.log('🥶');
                 this.storageService.getUser().then(userFromStorage => {
-                    console.log('Tabs INIT FROM STORAGE');
-                    console.log(userFromStorage);
                     this.user = userFromStorage;
                     if (userFromStorage.userEmail) {
                         this.isLogin = true;
@@ -63,7 +58,4 @@ export class TabsPage implements OnInit {
         }
 
     }
-
-    //TODO fix authentication squirell
-
 }

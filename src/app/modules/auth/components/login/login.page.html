@@ -2,9 +2,9 @@
     <ion-toolbar>
         <ion-title>Login</ion-title>
         <ion-buttons slot="primary" *ngIf="showFields">
-            <ion-button  color="secondary">
-                <ion-icon name="log-in-outline" color="tertiary" ></ion-icon>
-                <ion-label color="tertiary" routerLink="/login" > Login</ion-label>
+            <ion-button color="secondary">
+                <ion-icon name="log-in-outline" color="tertiary"></ion-icon>
+                <ion-label color="tertiary" routerLink="/login"> Login</ion-label>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
@@ -13,10 +13,10 @@
 <ion-content>
     <form
             *ngIf="!showFields"
-          [formGroup]="loginForm"
-          name="loginForm"
-          (ngSubmit)="f.form.valid && onSubmit()"
-          #f="ngForm"
+            [formGroup]="loginForm"
+            name="loginForm"
+            (ngSubmit)="f.form.valid && onSubmit()"
+            #f="ngForm"
     >
         <ion-grid>
             <ion-row>
@@ -25,27 +25,33 @@
                         <ion-label position="floating">Email</ion-label>
                         <ion-input type="email" [formControl]="userEmail" required></ion-input>
                     </ion-item>
-                  <ion-item>
-                    <ion-label position="floating">Password</ion-label>
-                    <ion-input type="text" [formControl]="userPassword" required></ion-input>
-                  </ion-item>
+                    <ion-item>
+                        <ion-label position="floating">Password</ion-label>
+                        <ion-input type="text" [formControl]="userPassword" required></ion-input>
+                    </ion-item>
                     <br>
-                  <ion-button type="submit" color="primary" expand="block" [disabled]="!f.valid">
-                    Login
-                  </ion-button>
-                  <ion-button routerLink="/signup" color="tertiary" fill="outline" expand="block">Sign up</ion-button>
-                  <ion-button (click)="showFields = !showFields"
-                              color="warning" fill="clear" expand="block">Forgot Password?</ion-button>
+                    <ion-button type="submit" color="primary" expand="block" [disabled]="!f.valid">
+                        Login
+                    </ion-button>
+                    <ion-button routerLink="/signup" color="tertiary" fill="outline" expand="block">Sign up</ion-button>
+                    <ion-button (click)="showFields = !showFields"
+                                color="warning" fill="clear" expand="block">Forgot Password?
+                    </ion-button>
                 </ion-col>
             </ion-row>
         </ion-grid>
     </form>
     <ion-button *ngIf="showFields" (click)="showFields = !showFields">Back</ion-button>
-    <ion-text align="center"  color="secondary" *ngIf="showFields">
+    <ion-text align="center" color="secondary" *ngIf="showFields">
         <h3>Please fill the form bellow to recover your password. </h3>
+        <h3 *ngIf="showFailureMessage">{{errorMessage}}</h3>
     </ion-text>
+    <ion-text color="success">
+        <h3 *ngIf="showSuccessMessage">{{successMessage}}</h3>
+    </ion-text>
+
     <form
-            *ngIf="showFields"
+            *ngIf="showFields && showEmailForm"
             [formGroup]="userForgotPasswordForm"
             name="loginForm"
             (ngSubmit)="forgot.form.valid && forgotPassword(forgot.value)"
@@ -58,12 +64,41 @@
                         <ion-label position="floating">Email</ion-label>
                         <ion-input type="email" [formControl]="forgot.control.get('userEmail')" required></ion-input>
                     </ion-item>
-                    <ion-button type="submit" color="primary" expand="block" [disabled]="!forgot.valid">Recover</ion-button>
+                    <ion-button type="submit" color="primary" expand="block" [disabled]="!forgot.valid">Recover
+                    </ion-button>
                 </ion-col>
             </ion-row>
         </ion-grid>
     </form>
-    <ion-text align="center"  color="warning" *ngIf="showFields"><h3>{{errorMessage}}</h3></ion-text>
-    <ion-text align="center"  color="primary" *ngIf="showFields"><h3>{{successMessage}}</h3></ion-text>
-</ion-content>
+    <form
+            *ngIf="showTokenEmail"
+            [formGroup]="newPasswordForm"
+            name="loginForm"
+            (ngSubmit)="newPassword.form.valid && setNewPassword(newPassword.value)"
+            #newPassword="ngForm"
+    >
+        <ion-grid>
+            <ion-row>
+                <ion-col size-sm="6" offset-sm="3">
+                    <ion-item>
+                        <ion-label position="floating">Token</ion-label>
+                        <ion-input type="email" [formControl]="newPassword.control.get('token')" required></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label position="floating">New Password</ion-label>
+                        <ion-input type="email" [formControl]="newPassword.control.get('newPassword')"
+                                   required></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label position="floating">Confirm new Password</ion-label>
+                        <ion-input type="email" [formControl]="newPassword.control.get('confirmNewPassword')"
+                                   required></ion-input>
+                    </ion-item>
+                    <ion-button type="submit" color="tertiary" expand="block" [disabled]="!newPassword.valid">Submit
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
 
+</ion-content>

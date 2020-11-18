@@ -31,9 +31,7 @@ export class AllItemsComponent implements OnInit {
 
   loadData(event) {
     setTimeout(() => {
-      console.log('Done');
       event.target.complete();
-
       // App logic to determine if all data is loaded
       // and disable the infinite scroll
       // if (data.length == this.allItems.length) {
@@ -43,7 +41,6 @@ export class AllItemsComponent implements OnInit {
   }
 
   filterByName(value: string) {
-    console.log(value);
     this.filtered = Object.assign([], this.allItems);
     this.filter = true;
     if (!value) {

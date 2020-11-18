@@ -20,7 +20,34 @@ export class SignUpComponent implements OnInit {
                 private authService: AuthService) {
     }
 
+    //  GETTERS
+    get userName() {
+        return this.signUpForm.get('userName');
+    }
 
+    get userLastName() {
+        return this.signUpForm.get('userLastName');
+    }
+
+    get userNickName() {
+        return this.signUpForm.get('userNickName');
+    }
+
+    get userEmail() {
+        return this.signUpForm.get('userEmail');
+    }
+
+    get userPassword() {
+        return this.signUpForm.get('userPassword');
+    }
+
+    get userConfirmPassword() {
+        return this.signUpForm.get('userConfirmPassword');
+    }
+
+    get userAge() {
+        return this.signUpForm.get('userAge');
+    }
 
     ngOnInit() {
         this.signUpForm = this.formBuilder.group({
@@ -35,77 +62,46 @@ export class SignUpComponent implements OnInit {
     }
 
     onSubmit(formValue: any) {
-      this.presentLoading();
+        this.presentLoading();
         this.authService.register(formValue).subscribe(data => {
-          this.loadingController.dismiss();
-          this.presentAlert('User was successfully registered', true);
-                setTimeout(() => {
-                    this.alertCtrl.dismiss();
-                }, 2000)
-                this.router.navigateByUrl('login')
+                this.dismissLoading();
+                this.presentAlert('User was successfully registered', true);
+                this.router.navigateByUrl('login');
             },
             error => {
-              this.loadingController.dismiss();
+                this.dismissLoading();
                 this.presentAlert(error.error.errors[0].defaultMessage, false);
                 setTimeout(() => {
                     this.alertCtrl.dismiss();
-                }, 2000)
+                }, 2000);
             });
     }
 
-  async presentAlert(message: string, success: boolean) {
-    const alert = await this.alertCtrl.create({
-      header: message,
-        cssClass: success ? 'myAlertSuccess' : 'myAlertFailure'
-    });
-    await alert.present();
-    setTimeout(() => {
-      this.dismissAlert();
-    }, 1500);
-  }
+    async presentAlert(message: string, success: boolean) {
+        const alert = await this.alertCtrl.create({
+            header: message,
+            cssClass: success ? 'myAlertSuccess' : 'myAlertFailure'
+        });
+        await alert.present();
+        setTimeout(() => {
+            this.dismissAlert();
+        }, 1500);
+    }
 
-  async dismissAlert() {
+    async dismissAlert() {
+        await this.alertCtrl.dismiss();
+    }
 
-  }
+    async presentLoading() {
+        const loading = await this.loadingController.create({
+            cssClass: 'my-custom-class',
+            message: 'Please wait...',
+            spinner: 'bubbles',
+        });
+        await loading.present();
+    }
 
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      cssClass: 'my-custom-class',
-      message: 'Please wait...',
-      spinner: 'bubbles',
-    });
-    await loading.present();
-
-    const { role, data } = await loading.onDidDismiss();
-    console.log('Loading dismissed!');
-  }
-
-  //  GETTERS
-  get userName() {
-    return this.signUpForm.get('userName');
-  }
-
-  get userLastName() {
-    return this.signUpForm.get('userLastName');
-  }
-
-  get userNickName() {
-    return this.signUpForm.get('userNickName');
-  }
-
-  get userEmail() {
-    return this.signUpForm.get('userEmail');
-  }
-
-  get userPassword() {
-    return this.signUpForm.get('userPassword');
-  }
-
-  get userConfirmPassword() {
-    return this.signUpForm.get('userConfirmPassword');
-  }
-
-  get userAge() {
-    return this.signUpForm.get('userAge');
-  }
+    async dismissLoading() {
+        await this.loadingController.dismiss();
+    }
 }

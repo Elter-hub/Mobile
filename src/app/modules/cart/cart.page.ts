@@ -28,7 +28,6 @@ export class CartPage implements OnInit {
 
     ngOnInit(): void {
         this.userService.currentUser.subscribe(userSubject => {
-            console.log(userSubject);
             if (Object.keys(this.userService.userSubject.getValue()).length !== 0){
                 this.user = userSubject;
                 this.userEmail = userSubject.userEmail;
@@ -48,10 +47,6 @@ export class CartPage implements OnInit {
         });
     }
 
-    remove(item: Item) {
-
-    }
-
     oneMoreItem(item: Item, addOrRemove: boolean) {
         this.itemService.addItemToCart(this.userEmail, item.itemId, addOrRemove).subscribe(data => {
             this.cart = data.items.sort((first, second) => first.itemId > second.itemId ? 1 : -1)
@@ -67,7 +62,6 @@ export class CartPage implements OnInit {
 
     removeItemFromCart(itemId: number){
         this.itemService.removeItemFromCart(this.userEmail, itemId).subscribe(data => {
-            console.log(data);
             this.cart = data.items.sort((first, second) => first.itemId > second.itemId ? 1 : -1)
             this.user.cart.items = this.cart
             this.storageService.saveUser(this.user)

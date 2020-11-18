@@ -35,7 +35,6 @@ export class ChangeImageComponent implements OnInit {
       this.dismissPopOver();
       this.presentAlert(true, '');
     }, error => {
-        console.log(error.error.message)
         this.dismissPopOver();
         this.presentAlert(false, error.error.message,);
   })
@@ -50,7 +49,6 @@ export class ChangeImageComponent implements OnInit {
   }
 
   async presentAlert(success?: boolean, message?: string) {
-    console.log(message);
     const alert = await this.alertCtrl.create({
       header: message !== '' ? 'Failure!! \nPlease check your URL' :'Image was successfully changed',
       buttons: ['OK'],

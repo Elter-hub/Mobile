@@ -29,7 +29,6 @@ export class ConfirmEmailComponent implements OnInit {
 
   async confirmEmail(value: any) {
     await this.authService.confirmEmail(value.token).subscribe(data => {
-      console.log(data);
       let user = this.userService.userSubject.getValue();
       user.isEnabled = true;
       this.storageService.saveUser(user);

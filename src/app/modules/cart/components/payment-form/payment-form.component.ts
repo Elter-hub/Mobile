@@ -3,8 +3,9 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from '../../../../models/user';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../shared/services/user.service';
-import {NavParams} from '@ionic/angular';
+import {AlertController, ModalController, NavParams} from '@ionic/angular';
 import {StorageService} from '../../../shared/services/storage.service';
+import {Router} from '@angular/router';
 
 declare var Stripe;
 
@@ -20,16 +21,18 @@ export class PaymentFormComponent implements OnInit {
               private formBuilder: FormBuilder,
               private userService: UserService,
               private navParams: NavParams,
-              private storageService: StorageService,
+              private alertCtrl: AlertController,
+              private modalCtrl: ModalController,
+              private router: Router
               ) { }
 
   ngOnInit(): void {
 
     this.cardForm = this.formBuilder.group({
-      cardNumber: ['', [Validators.required]],
-      cardExpMonth: ['', [Validators.required]],
-      cardExpYear: ['', [Validators.required]],
-      cardCvc: ['', [Validators.required]],
+      cardNumber: ['4242424242424242', [Validators.required]],
+      cardExpMonth: ['11', [Validators.required]],
+      cardExpYear: ['2022', [Validators.required]],
+      cardCvc: ['255', [Validators.required]],
     });
   }
 
@@ -58,6 +61,8 @@ export class PaymentFormComponent implements OnInit {
           this.user.cart.items = [];
           this.user.cart.quantities = [];
           this.userService.changeUser(this.user)
+          this.presentAlert();
+
         },error => console.log(error))
   }
 
@@ -77,5 +82,27 @@ export class PaymentFormComponent implements OnInit {
 
   onSubmit(value: any) {
     return false;
+  }
+
+  back() {
+    this.modalCtrl.dismiss()
+  }
+
+  async dismissAlert() {
+    await this.alertCtrl.dismiss();
+  }
+
+  async presentAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Success!!',
+      buttons: ['OK'],
+      cssClass: 'myAlertSuccess'
+    });
+    await alert.present();
+    await setTimeout(() => {
+      this.dismissAlert()
+      this.back()
+    }, 1500)
+
   }
 }

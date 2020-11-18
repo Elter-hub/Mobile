@@ -36,7 +36,6 @@ export class OneItemComponent implements OnInit {
 
   addToCard(item: Item) {
     this.itemService.addItemToCart(this.user.userEmail, item.itemId, true).subscribe(data => {
-      console.log(data);
       this.presentToast();
       this.user.cart.items = data.items.sort((first, second) => first.itemId > second.itemId ? 1 : -1)
       this.storageService.saveUser(this.user)
@@ -44,13 +43,12 @@ export class OneItemComponent implements OnInit {
     }, error => {
       console.log(error);
     })
-
   }
 
   async presentToast() {
     const toast = await this.toastController.create({
       message: 'Item was successively added to your cart🛒',
-      duration: 1000,
+      duration: 500,
       color: 'success'
     });
     toast.present();

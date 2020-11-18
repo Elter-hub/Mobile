@@ -26,9 +26,9 @@ export class UserChangePasswordComponent implements OnInit {
 
     ngOnInit() {
         this.changePasswordForm = this.formBuilder.group({
-            oldPassword: ['', [Validators.required]],
-            newPassword: ['', [Validators.required]],
-            confirmNewPassword: ['', [Validators.required]],
+            oldPassword: ['Superuser123', []],
+            newPassword: ['Qwerty123', [Validators.required]],
+            confirmNewPassword: ['Qwerty123', [Validators.required]],
         });
         this.confirmationForm = this.formBuilder.group({
             confirm: ['', [Validators.required]],
@@ -43,14 +43,10 @@ export class UserChangePasswordComponent implements OnInit {
             .subscribe(data => {
                     this.showSpinner = false;
                     this.showConfirmationForm = true;
-                    console.log(data);
-                    console.log('🥰');
                 },
                 error => {
                     this.showSpinner = false;
                     this.presentAlert(error.error.message, true)
-                    console.log('🥶');
-                    console.log(error);
                 });
         return false;
     }
@@ -59,7 +55,6 @@ export class UserChangePasswordComponent implements OnInit {
         this.userActionService.userConfirmPasswordChanges(this.navParams.get('email'),
             this.confirmationForm.value.confirm)
             .subscribe(data => {
-                console.log(data);
                 this.dismissPopOver();
                 this.presentAlert('Password was successfully changed', true);
             }, error => {
