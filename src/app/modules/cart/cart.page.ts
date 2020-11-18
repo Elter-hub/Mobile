@@ -60,7 +60,6 @@ export class CartPage implements OnInit {
             this.userService.userSubject.next(this.user);
             this.sum = 0;
             this.cart.forEach(item => this.sum += item.price * item.addedToCart)
-
         }, error => {
             console.log(error);
         })

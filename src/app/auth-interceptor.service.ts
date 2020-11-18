@@ -31,14 +31,9 @@ export class AuthInterceptorService implements HttpInterceptor {
                 request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
             }
             return next.handle(request).pipe(catchError(error => {
-                console.log(!this.userService.userSubject.getValue());
-                console.log(this.userService.userSubject.getValue());
                 if (error instanceof HttpErrorResponse && error.status === 401 && !this.userService.userSubject.getValue()) {
-                    console.log(this.userService.userSubject.getValue());
-                    console.log(!this.userService.userSubject.getValue());
                     return this.handle401Error(request, next);
                 } else {
-                    console.log('THROW ERROR');
                     return throwError(error);
                 }
             }))

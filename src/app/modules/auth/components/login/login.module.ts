@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
+import {ConfirmEmailComponent} from '../confirm-email/confirm-email.component';
 
 
 @NgModule({
@@ -17,6 +18,6 @@ import { LoginPage } from './login.page';
     ReactiveFormsModule,
     IonicModule,
   ],
-  declarations: [LoginPage]
+  declarations: [LoginPage, ConfirmEmailComponent]
 })
 export class LoginPageModule {}

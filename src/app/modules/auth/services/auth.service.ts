@@ -73,4 +73,12 @@ export class AuthService {
             return throwError(error);
         }));
     }
+
+    confirmEmail(emailConfirmationToken: string) {
+        console.log(emailConfirmationToken);
+        return this.http.post(AUTH_API + 'auth/confirm',
+            {
+                emailConfirmationToken: emailConfirmationToken
+            })
+    }
 }

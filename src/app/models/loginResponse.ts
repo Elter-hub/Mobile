@@ -12,4 +12,5 @@ export interface LoginResponse {
     userLastName: string;
     userName: string;
     userNickName: string;
+    isEnabled: boolean
 }

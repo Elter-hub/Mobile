@@ -6,8 +6,9 @@ import {Storage} from '@ionic/storage';
 import {StorageService} from '../../../shared/services/storage.service';
 import {UserService} from '../../../shared/services/user.service';
 import {log} from 'util';
-import {AlertController, LoadingController} from '@ionic/angular';
+import {AlertController, LoadingController, PopoverController} from '@ionic/angular';
 import {User} from '../../../../models/user';
+import {ConfirmEmailComponent} from '../confirm-email/confirm-email.component';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class LoginPage implements OnInit {
                 private activatedRoute: ActivatedRoute,
                 private loadingCtrl: LoadingController,
                 private alertCtrl: AlertController,
+                public popoverController: PopoverController,
                 private authService: AuthService,
                 private userService: UserService,
                 private storageService: StorageService,
@@ -68,12 +70,16 @@ export class LoginPage implements OnInit {
                 console.log(data);
                 this.storageService.saveTokens(data.accessToken, data.refreshToken);
                 this.user = this.userService.createUser(data.id, data.imageUrl, data.cart,
-                    data.roles, data.userAge, data.userEmail, data.userLastName, data.userName, data.userNickName);
+                    data.roles, data.userAge, data.userEmail, data.userLastName, data.userName, data.userNickName, data.isEnabled);
                 console.log(this.user);
                 this.userService.userSubject.next(this.user)
                 this.storageService.saveUser(this.user);
                 setTimeout(() => {
-                    this.router.navigate(['tabs/profile']);
+                    if (!data.isEnabled) {
+                        this.showPopOver()
+                    }else {
+                        this.router.navigate(['tabs/profile']);
+                    }
                 }, 1000);
             },
             error => {
@@ -94,7 +100,6 @@ export class LoginPage implements OnInit {
                 console.log(data);
             },
             error => {
-
                 this.errorMessage = error.error.message;
                 console.log(error.error.message);
             });
@@ -126,5 +131,12 @@ export class LoginPage implements OnInit {
         setTimeout(() => {
             this.dismissAlert()
         }, 1500)
+    }
+
+    async showPopOver() {
+        const popover = await this.popoverController.create({
+            component: ConfirmEmailComponent,
+        });
+        return await popover.present();
     }
 }

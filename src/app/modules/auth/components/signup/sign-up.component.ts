@@ -24,13 +24,13 @@ export class SignUpComponent implements OnInit {
 
     ngOnInit() {
         this.signUpForm = this.formBuilder.group({
-            userName: ['', [Validators.required]],
-            userLastName: ['', [Validators.required]],
-            userNickName: ['', [/*Validators.required*/]],
-            userEmail: ['', [Validators.required]],
-            userPassword: ['', [Validators.required]],
-            userConfirmPassword: ['', [/*Validators.required*/]],
-            userAge: ['', /*[Validators.min(16)]*/],
+            userName: ['Ihor', [Validators.required]],
+            userLastName: ['Denys', [Validators.required]],
+            userNickName: ['Pifon', [/*Validators.required*/]],
+            userEmail: ['ihor04@gmail.com', [Validators.required]],
+            userPassword: ['Superuser123', [Validators.required]],
+            userConfirmPassword: ['Superuser123', [/*Validators.required*/]],
+            userAge: ['22', /*[Validators.min(16)]*/],
         });
     }
 
@@ -38,19 +38,25 @@ export class SignUpComponent implements OnInit {
       this.presentLoading();
         this.authService.register(formValue).subscribe(data => {
           this.loadingController.dismiss();
-          this.presentAlert();
-                console.log(data);
+          this.presentAlert('User was successfully registered', true);
+                setTimeout(() => {
+                    this.alertCtrl.dismiss();
+                }, 2000)
+                this.router.navigateByUrl('login')
             },
             error => {
-          console.log(error)
               this.loadingController.dismiss();
-
+                this.presentAlert(error.error.errors[0].defaultMessage, false);
+                setTimeout(() => {
+                    this.alertCtrl.dismiss();
+                }, 2000)
             });
     }
 
-  async presentAlert() {
+  async presentAlert(message: string, success: boolean) {
     const alert = await this.alertCtrl.create({
-      header: 'User was successfully registered',
+      header: message,
+        cssClass: success ? 'myAlertSuccess' : 'myAlertFailure'
     });
     await alert.present();
     setTimeout(() => {
@@ -59,8 +65,7 @@ export class SignUpComponent implements OnInit {
   }
 
   async dismissAlert() {
-    await this.alertCtrl.dismiss();
-    await this.router.navigateByUrl('login')
+
   }
 
   async presentLoading() {

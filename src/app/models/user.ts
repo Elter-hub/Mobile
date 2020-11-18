@@ -10,6 +10,7 @@ export interface User {
     userSex?: string;
     imageUrl?: string;
     cart?: Cart;
+    isEnabled?: boolean;
 }
 
 export interface ForgotPasswordResponse {

@@ -37,7 +37,7 @@ export class UserService {
   }
 
   createUser(id: number, imageUrl: string, cart: Cart, roles: string[], userAge: number, userEmail: string,
-    userLastName: string, userName: string, userNickName: string ): User {
+    userLastName: string, userName: string, userNickName: string, isEnabled: boolean): User {
       this.user = {
         cart: cart,
         imageUrl: imageUrl,
@@ -48,6 +48,7 @@ export class UserService {
         userNickName: userNickName,
         userSex: '',
         id: id,
+        isEnabled: isEnabled
       }
       this.userSubject.next(this.user);
       return this.user;
