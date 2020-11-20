@@ -32,11 +32,6 @@ export class AllItemsComponent implements OnInit {
   loadData(event) {
     setTimeout(() => {
       event.target.complete();
-      // App logic to determine if all data is loaded
-      // and disable the infinite scroll
-      // if (data.length == this.allItems.length) {
-      //   event.target.disabled = true;
-      // }
     }, 500);
   }
 

@@ -1,7 +1,14 @@
 export interface TotalSells {
-    sum: ItemSum;
+    sum: Object;
 }
 
-export interface ItemSum {
-
+export interface AnalyticData {
+    eachItem: TotalSells;
+    totalSells: SingleItem;
 }
+
+export interface SingleItem {
+    singleItem: Object;
+}
+
+

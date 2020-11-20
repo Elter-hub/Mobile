@@ -1,10 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ChartDataSets, ChartOptions, ChartType} from 'chart.js';
-import {Color, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet} from 'ng2-charts';
-import {AnalyticService} from './services/analytic.service';
+import {Color, Label,  monkeyPatchChartJsTooltip} from 'ng2-charts';
 import {ActivatedRoute} from '@angular/router';
-import {BehaviorSubject, fromEvent, Observable} from 'rxjs';
-import {debounce, debounceTime, map, startWith} from 'rxjs/operators';
+import { fromEvent, Observable} from 'rxjs';
+import { debounceTime, map, startWith} from 'rxjs/operators';
 
 
 @Component({
@@ -13,41 +12,22 @@ import {debounce, debounceTime, map, startWith} from 'rxjs/operators';
     styleUrls: ['./analytic.page.scss'],
 })
 export class AnalyticPage implements OnInit {
-    itemNames: string[];
-    itemSum: number[];
     totalData: any;
-    showLegend: boolean;
     eachItemData: any;
     eachItemNames: string[];
     arrayOfItemsTimeQuantity: any;
-    date: any;
-    quantity: any;
     dateAndQuantityObject: any;
     itemNameForChart: any;
     dateArrayForChart: any;
     quantityArrayForChart: any;
-    displayTimeSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
-    displayQuantitySubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([8, 5, 4])
-    time$ = this.displayTimeSubject.asObservable();
-    quantity$ = this.displayQuantitySubject.asObservable();
-    TIME: any;
-    QUANTITY: any;
+    pieChartLabels: Label[];
+    pieChartData;
+    pieChartType: ChartType = 'pie';
+    pieChartPlugins = [];
+    pieChartLegend;
+    isScreenSmall$: Observable<boolean>;
 
-
-    public pieChartOptions: ChartOptions = {
-        responsive: true,
-    };
-    public pieChartLabels: Label[];
-    public pieChartData;
-    public pieChartType: ChartType = 'pie';
-    public pieChartPlugins = [];
-    public pieChartLegend;
-    private isScreenSmall$: Observable<boolean>;
-
-
-    constructor(private activatedRoute: ActivatedRoute,
-                private analytic: AnalyticService) {
-    }
+    constructor(private activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(data => {
@@ -61,50 +41,40 @@ export class AnalyticPage implements OnInit {
         monkeyPatchChartJsTooltip();
 
         const checkScreenSize = () => document.body.offsetWidth < 768;
-        const screenSizeChanged$ = fromEvent(window, 'resize').pipe(debounceTime(500)).pipe(map(checkScreenSize));
+        const screenSizeChanged$ = fromEvent(window, 'resize').pipe(debounceTime(500))
+                                                                        .pipe(map(checkScreenSize));
         this.isScreenSmall$ = screenSizeChanged$.pipe(startWith(checkScreenSize()));
 
         this.isScreenSmall$.subscribe(data => {
             this.pieChartLegend = !data;
         });
-
-        this.time$.subscribe(data => {
-            this.TIME = data
-            console.log(this.TIME);
-        })
-        this.quantity$.subscribe(data => {
-            this.QUANTITY = data
-            console.log(this.QUANTITY);
-        })
     }
 
     showItemGraph($event: any) {
-        console.log(new Date('2020-11-16'));
         let item = $event.detail.value;
         let entries = Object.entries(this.eachItemData);
         entries.filter(data => data.includes(item)).forEach(data => {
             this.itemNameForChart = data[0];
             this.dateAndQuantityObject = data[1];
             this.dateArrayForChart = Object.keys(this.dateAndQuantityObject).map(date =>{
-                return new Date(date.slice(0,10)).getDate()
+                return date.slice(0,10)
             })
-            this.displayTimeSubject.next(this.dateArrayForChart)
             this.quantityArrayForChart = Object.values(this.dateAndQuantityObject)
-            this.displayQuantitySubject.next(this.quantityArrayForChart)
-            console.log(this.itemNameForChart);
-            console.log(this.dateArrayForChart);
-            console.log(this.quantityArrayForChart);
 
             this.lineChartData[0].data = this.quantityArrayForChart;
             this.lineChartLabels = this.dateArrayForChart;
         })
     }
 
+    public pieChartOptions: ChartOptions = {
+        responsive: true,
+    };
+
     lineChartData: ChartDataSets[] = [
-        { data: this.QUANTITY, label: 'How much each day' },
+        { data: [1, 10], label: 'How much each day' },
     ];
 
-    lineChartLabels: Label[] = this.TIME;
+    lineChartLabels: Label[] = ['20', '22'];
 
     lineChartOptions = {
         responsive: true,
