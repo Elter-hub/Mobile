@@ -27,6 +27,7 @@ export class PaymentFormComponent implements OnInit {
               ) { }
 
   ngOnInit(): void {
+    this.userService.currentUser.subscribe(user => this.user = user);
 
     this.cardForm = this.formBuilder.group({
       cardNumber: ['4242424242424242', [Validators.required]],
@@ -54,10 +55,11 @@ export class PaymentFormComponent implements OnInit {
 
   chargeCard(token: string) {
     const headers = new HttpHeaders({'token': token, 'amount': this.navParams.get('amount').toString()});
-    this.http.post('http://localhost:8082/payment/charge', {}, {headers: headers})
+    this.http.post('http://localhost:8082/payment/charge', {
+      items: this.user.cart.items
+    }, {headers: headers})
         .subscribe(resp => {
           console.log(resp);
-          this.userService.currentUser.subscribe(user => this.user = user);
           this.user.cart.items = [];
           this.user.cart.quantities = [];
           this.userService.changeUser(this.user)

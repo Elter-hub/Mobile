@@ -48,7 +48,8 @@ export class UserService {
         userNickName: userNickName,
         userSex: '',
         id: id,
-        isEnabled: isEnabled
+        isEnabled: isEnabled,
+        roles: roles
       }
       this.userSubject.next(this.user);
       return this.user;

@@ -13,6 +13,7 @@ export class TabsPage implements OnInit {
     isLogin: boolean;
     showTabsIcons: boolean;
     user: User;
+    isAdmin: boolean;
 
     constructor(private router: Router,
                 private userService: UserService,
@@ -21,9 +22,13 @@ export class TabsPage implements OnInit {
     }
 
     ngOnInit(): void {
+
         this.userService.userSubject.subscribe(user => {
-            if (user !== {}) {
+            if (Object.keys(this.userService.userSubject.getValue()).length !== 0) {
                 this.user = user;
+                if(user.roles.includes('ROLE_ADMIN')){
+                    this.isAdmin = true;
+                }
                 this.isLogin = true;
                 this.showTabsIcons = true;
                 this.storageService.saveUser(user)
@@ -31,6 +36,9 @@ export class TabsPage implements OnInit {
                 this.storageService.getUser().then(userFromStorage => {
                     this.user = userFromStorage;
                     if (userFromStorage.userEmail) {
+                        if(userFromStorage.roles.includes('ROLE_ADMIN')){
+                            this.isAdmin = true;
+                        }
                         this.isLogin = true;
                         this.showTabsIcons = true;
                         this.user = userFromStorage;
@@ -57,5 +65,9 @@ export class TabsPage implements OnInit {
             this.router.navigateByUrl('login');
         }
 
+    }
+
+    showAnalytic() {
+        console.log(this.user);
     }
 }

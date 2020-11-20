@@ -58,7 +58,7 @@ export class LoginPage implements OnInit {
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
-            userEmail: ['ihor04@gmail.com', [Validators.required]],
+            userEmail: ['04denysihor@gmail.com', [Validators.required]],
             userPassword: ['Superuser123', [Validators.required]],
         });
 
@@ -77,6 +77,7 @@ export class LoginPage implements OnInit {
         this.presentLoading();
         this.loginService.login(this.loginForm.value).subscribe(
             data => {
+                console.log(data);
                 this.loadingCtrl.dismiss();
                 this.storageService.saveTokens(data.accessToken, data.refreshToken);
                 this.user = this.userService.createUser(data.id, data.imageUrl, data.cart,

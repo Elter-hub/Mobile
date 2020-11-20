@@ -11,6 +11,7 @@ export interface User {
     imageUrl?: string;
     cart?: Cart;
     isEnabled?: boolean;
+    roles?: string[];
 }
 
 export interface ForgotPasswordResponse {
