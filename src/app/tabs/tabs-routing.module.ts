@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 import {SignUpComponent} from '../modules/auth/components/signup/sign-up.component';
 import {TotalSellsResolverService} from '../modules/analytic/services/total-sells-resolver.service';
+import {EachItemResolverService} from '../modules/analytic/services/each-item-resolver.service';
 
 const routes: Routes = [
   {
@@ -16,7 +17,7 @@ const routes: Routes = [
       {
         path: 'analytic',
         loadChildren: () => import('../modules/analytic/analytic.module').then(m => m.AnalyticPageModule),
-        resolve: {totalSells: TotalSellsResolverService}
+        resolve: {totalSells: TotalSellsResolverService, eachItem: EachItemResolverService}
       },
       {
         path: 'cart',

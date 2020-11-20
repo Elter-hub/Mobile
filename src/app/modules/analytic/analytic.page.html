@@ -1,0 +1,39 @@
+<h1>_</h1>
+
+
+<ion-content>
+  <ion-text  color="tertiary" >
+    Total sells
+  </ion-text>
+  <div class="chart-wrapper" >
+    <canvas baseChart
+            #canvasElement1
+            [data]="pieChartData"
+            [labels]="pieChartLabels"
+            [chartType]="pieChartType"
+            [options]="pieChartOptions"
+            [plugins]="pieChartPlugins"
+            [legend]="pieChartLegend">
+    </canvas>
+  </div>
+
+  <ion-item>
+  <ion-label>Choose item</ion-label>
+  <ion-select [value]="eachItemNames[0]"  (ionChange)="showItemGraph($event)">
+    <ion-select-option   *ngFor="let n of eachItemNames" [value]="n">{{n}}
+    <div ></div></ion-select-option>
+  </ion-select>
+  </ion-item>
+
+  <div class="chart-wrapper">
+    <canvas baseChart
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [options]="lineChartOptions"
+            [colors]="lineChartColors"
+            [legend]="lineChartLegend"
+            [chartType]="lineChartType"
+            [plugins]="lineChartPlugins">
+    </canvas>
+  </div>
+</ion-content>
