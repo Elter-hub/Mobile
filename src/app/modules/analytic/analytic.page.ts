@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ChartDataSets, ChartOptions, ChartType} from 'chart.js';
 import {Color, Label,  monkeyPatchChartJsTooltip} from 'ng2-charts';
 import {ActivatedRoute} from '@angular/router';
 import { fromEvent, Observable} from 'rxjs';
 import { debounceTime, map, startWith} from 'rxjs/operators';
+import 'chartjs-plugin-labels';
 
 
 @Component({
@@ -67,7 +68,20 @@ export class AnalyticPage implements OnInit {
     }
 
     public pieChartOptions: ChartOptions = {
-        responsive: true,
+        plugins: {
+            labels: {
+                render: "percentage",
+                precision: 1,
+                showZero: true,
+                fontSize: 12,
+                fontColor: "#000000",
+                arc: true,
+                position: "outside",
+                overlap: false,
+                showActualPercentages: true,
+            }
+        }
+
     };
 
     lineChartData: ChartDataSets[] = [
