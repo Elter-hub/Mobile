@@ -21,9 +21,10 @@ export class AllItemsComponent implements OnInit {
               private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getItemService.getAllItems().subscribe(data => {
-      this.filtered = data;
-      this.allItems = data
+    this.activatedRoute.data.subscribe(data => {
+      this.filtered = data.allItems;
+      this.allItems = data.allItems;
+      console.log(data);
     }, error => {
       console.log(error);
     })

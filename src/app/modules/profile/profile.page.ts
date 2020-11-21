@@ -38,8 +38,8 @@ export class ProfilePage implements OnInit {
     }
 
     openFirst() {
-        this.menu.enable(true, 'first');
-        this.menu.open('first');
+        this.menu.enable(true, 'menu');
+        this.menu.open('menu');
     }
 
     async changeImage() {

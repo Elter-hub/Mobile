@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Item} from '../../../../models/cart';
-import {ModalController, NavParams, ToastController} from '@ionic/angular';
+import {MenuController, ModalController, NavParams, ToastController} from '@ionic/angular';
 import {UserService} from '../../../shared/services/user.service';
 import {StorageService} from '../../../shared/services/storage.service';
 import {User} from '../../../../models/user';
@@ -15,9 +15,11 @@ import {ItemService} from '../../services/item.service';
 export class OneItemComponent implements OnInit {
   @Input() item: Item;
   user: User;
+  isAdmin: boolean;
   constructor(private router: Router,
               private navsParam: NavParams,
               private userService: UserService,
+              private menu: MenuController,
               private itemService: ItemService,
               private storageService: StorageService,
               public toastController: ToastController,
@@ -25,7 +27,14 @@ export class OneItemComponent implements OnInit {
 
   ngOnInit() {
     this.item = this.navsParam.get('item');
-    this.userService.currentUser.subscribe(user => this.user = user)
+    this.userService.currentUser.subscribe(user => {
+      this.user = user
+      if(this.user.roles.includes('ROLE_ADMIN')){
+        this.isAdmin = true;
+      }
+    })
+    console.log(this.user);
+
   }
 
   dismiss() {
@@ -52,5 +61,32 @@ export class OneItemComponent implements OnInit {
       color: 'success'
     });
     toast.present();
+  }
+
+
+  showItemOption() {
+    console.log('showOptions');
+    this.menu.enable(true, 'menu');
+    this.menu.open('menu');
+  }
+
+  openFirst() {
+
+  }
+
+  addItems() {
+
+  }
+
+  promote() {
+
+  }
+
+  cancelPromotion() {
+
+  }
+
+  deleteItem(item: Item) {
+
   }
 }
