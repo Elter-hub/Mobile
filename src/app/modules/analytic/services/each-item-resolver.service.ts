@@ -12,6 +12,7 @@ export class EachItemResolverService implements Resolve<any>{
   constructor(private analyticService: AnalyticService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
+    console.log('Each Item Resolver');
     return this.analyticService.getEachItemSells();
   }
 }

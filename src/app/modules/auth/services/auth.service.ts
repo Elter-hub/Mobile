@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {Observable, throwError} from 'rxjs';
+import {from, Observable, throwError} from 'rxjs';
 import {LoginResponse} from '../../../models/loginResponse';
 import {StorageService} from '../../shared/services/storage.service';
 import {ForgotPasswordResponse, Tokens} from '../../../models/user';
@@ -52,25 +52,22 @@ export class AuthService {
         });
     }
 
-    refreshToken() {
-        let userEmail;
-        let refreshToken;
-        let accessToken;
-        this.storageService.getUser().then(user => userEmail = user.userEmail);
-        this.storageService.getRefreshToken().then(token => refreshToken = token);
-        this.storageService.getAccessToken().then(token => accessToken = token);
-        return this.http.post(AUTH_API + 'auth/refresh-token', {
-            userEmail: userEmail,
-            refreshToken: refreshToken,
-            accessToken: accessToken
-    }).
-        pipe(tap((tokens: Tokens) => {
-            this.storageService.saveTokens(tokens.accessToken, tokens.refreshToken);
-        }), catchError(error => {
-            console.log(error);
-            this.storageService.removeTokens();
-            return throwError(error);
-        }));
+    refreshToken(accessToken: any, refreshToken: any, userEmail: any) {
+        return from(this.storageService.getAccessToken()).pipe(token => {
+            return this.http.post(AUTH_API + 'auth/refresh-token', {
+                userEmail: userEmail,
+                refreshToken: refreshToken,
+                accessToken: accessToken
+            }).
+            pipe(tap((tokens: Tokens) => {
+                this.storageService.saveTokens(tokens.accessToken, tokens.refreshToken);
+            }), catchError(error => {
+                console.log(error);
+                this.storageService.removeTokens();
+                return throwError(error);
+            }));
+        });
+
     }
 
     confirmEmail(emailConfirmationToken: string) {

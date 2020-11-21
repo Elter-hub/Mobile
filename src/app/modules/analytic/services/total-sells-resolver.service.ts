@@ -12,6 +12,8 @@ export class TotalSellsResolverService implements Resolve<TotalSells>{
   constructor(private analyticService: AnalyticService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<TotalSells> | Promise<TotalSells> | TotalSells {
+    console.log('TotalSellsResolverService Resolver');
+
     return this.analyticService.getTotalSells();
   }
 }

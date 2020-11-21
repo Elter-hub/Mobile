@@ -41,7 +41,7 @@ export class AnalyticPage implements OnInit {
         this.pieChartData = Object.values(this.totalData);
         monkeyPatchChartJsTooltip();
 
-        const checkScreenSize = () => document.body.offsetWidth < 768;
+        const checkScreenSize = () => document.body.offsetWidth < 640;
         const screenSizeChanged$ = fromEvent(window, 'resize').pipe(debounceTime(500))
                                                                         .pipe(map(checkScreenSize));
         this.isScreenSmall$ = screenSizeChanged$.pipe(startWith(checkScreenSize()));
@@ -81,14 +81,13 @@ export class AnalyticPage implements OnInit {
                 showActualPercentages: true,
             }
         }
-
     };
 
     lineChartData: ChartDataSets[] = [
-        { data: [1, 10], label: 'How much each day' },
+        { data: [], label: 'How much each day' },
     ];
 
-    lineChartLabels: Label[] = ['20', '22'];
+    lineChartLabels: Label[] = [];
 
     lineChartOptions = {
         responsive: true,

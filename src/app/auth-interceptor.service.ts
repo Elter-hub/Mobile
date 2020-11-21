@@ -19,6 +19,7 @@ import {UserService} from './modules/shared/services/user.service';
 export class AuthInterceptorService implements HttpInterceptor {
     private isRefreshing = false;
     private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    refreshData: any;
 
     constructor(public authService: AuthService,
                 private userService: UserService,
@@ -31,7 +32,7 @@ export class AuthInterceptorService implements HttpInterceptor {
                 request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
             }
             return next.handle(request).pipe(catchError(error => {
-                if (error instanceof HttpErrorResponse && error.status === 401 && !this.userService.userSubject.getValue()) {
+                if (error instanceof HttpErrorResponse && error.status === 401 && this.userService.userSubject.getValue()) {
                     return this.handle401Error(request, next);
                 } else {
                     return throwError(error);
@@ -49,23 +50,22 @@ export class AuthInterceptorService implements HttpInterceptor {
     }
 
     private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-        console.log(request);
-        console.log(this.userService.userSubject.getValue());
-        console.log();
-        if (true/*!this.userService.userSubject.getValue()*/){
-            console.log("🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰");
+        if (Object.keys(this.userService.userSubject.getValue()).length !== 0){
             if (!this.isRefreshing) {
                 this.isRefreshing = true;
                 this.refreshTokenSubject.next(null);
 
-                return this.authService.refreshToken().pipe(
-                    switchMap((token: any) => {
-                        console.log(token);
-                        this.isRefreshing = false;
-                        this.refreshTokenSubject.next(token.jwt);
-                        return next.handle(this.addToken(request, token.accessToken));
-                    }));
-
+               return from(this.storageService.getDataForRefresh()).pipe(switchMap(data => {
+                   this.refreshData = data
+                   return this.authService.refreshToken(this.refreshData[0], this.refreshData[1], this.refreshData[2].userEmail).pipe(
+                       switchMap((token: any) => {
+                           console.log("🆕 Access: " + token.accessToken);
+                           console.log("🆕 Refresh token: " + token.refreshToken);
+                           this.isRefreshing = false;
+                           this.refreshTokenSubject.next(token.jwt);
+                           return next.handle(this.addToken(request, token.accessToken));
+                       }));
+               }))
             } else {
                 return this.refreshTokenSubject.pipe(
                     filter(token => token != null),

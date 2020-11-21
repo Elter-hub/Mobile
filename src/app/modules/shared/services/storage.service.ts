@@ -40,4 +40,18 @@ export class StorageService {
   getRefreshToken(){
     return this.storage.get('RefreshToken');
   }
+
+  async getDataForRefresh() {
+    let accessToken;
+    let refreshToken;
+    let user;
+
+    await this.storage.get('AccessToken').then(data => accessToken = data)
+    await this.storage.get('RefreshToken').then(data => refreshToken = data)
+    await this.storage.get('User').then(data => user = data)
+
+    return [accessToken, refreshToken, user];
+  }
+
+
 }

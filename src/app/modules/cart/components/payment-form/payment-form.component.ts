@@ -54,7 +54,8 @@ export class PaymentFormComponent implements OnInit {
   }
 
   chargeCard(token: string) {
-    const headers = new HttpHeaders({'token': token, 'amount': this.navParams.get('amount').toString()});
+    const headers = new HttpHeaders({'token': token, 'amount': this.navParams.get('amount').toString(),
+                                            'email': this.user.userEmail });
     this.http.post('http://localhost:8082/payment/charge', {
       items: this.user.cart.items
     }, {headers: headers})
