@@ -58,7 +58,7 @@ export class LoginPage implements OnInit {
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
-            userEmail: ['04denysihor@gmail.com', [Validators.required]],
+            userEmail: ['ihor04@gmail.com', [Validators.required]],
             userPassword: ['Superuser123', [Validators.required]],
         });
 

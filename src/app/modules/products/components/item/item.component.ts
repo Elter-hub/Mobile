@@ -28,4 +28,7 @@ export class ItemComponent implements OnInit {
   }
 
 
+  addItemToCart(item: Item) {
+    
+  }
 }

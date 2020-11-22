@@ -3,7 +3,8 @@
     <ion-button (click)="dismiss()">
         <ion-icon name="arrow-back-outline"></ion-icon>
     </ion-button>
-    <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-button fill="outline" *ngIf="isAdmin" (click)="presentModal()" expand="block">Add new Item</ion-button>
+    <ion-fab *ngIf="isAdmin" vertical="top" horizontal="end" slot="fixed">
         <ion-fab-button (click)="showItemOption()" id="main">
             <ion-icon name="settings"></ion-icon>
         </ion-fab-button>
@@ -29,7 +30,7 @@
             <ion-card-subtitle>{{item?.type}}</ion-card-subtitle>
             <ion-card-title>{{item?.itemName}}</ion-card-title>
             <ion-card-title style="text-decoration: underline" color="tertiary"
-                            *ngIf="user.roles.includes('ROLE_ADMIN')">In store: {{item?.quantity}}</ion-card-title>
+                            *ngIf="isAdmin">In store: {{item?.quantity}}</ion-card-title>
         </ion-card-header>
         <div align="center">
         <img [src]="item?.itemImageUrl" [alt]="item?.itemName">

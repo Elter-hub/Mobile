@@ -56,11 +56,5 @@ export class AllItemsComponent implements OnInit {
         );
     }
 
-    async presentModal() {
-        const modal = await this.modalController.create({
-            component: NewItemComponent,
-            cssClass: 'my-custom-class',
-        });
-        return await modal.present();
-    }
+
 }

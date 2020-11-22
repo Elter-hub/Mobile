@@ -8,6 +8,7 @@ import {User} from '../../../../models/user';
 import {CartService} from '../../services/cart.service';
 import {AddItemPopOverComponent} from '../add-item-pop-over/add-item-pop-over.component';
 import {ItemService} from '../../services/item.service';
+import {NewItemComponent} from '../new-item/new-item.component';
 
 @Component({
     selector: 'app-one-item',
@@ -119,5 +120,13 @@ export class OneItemComponent implements OnInit {
         await this.itemService.deleteItem(item).subscribe(data => {
             this.item = data;
         });
+    }
+
+    async presentModal() {
+        const modal = await this.modalController.create({
+            component: NewItemComponent,
+            cssClass: 'my-custom-class',
+        });
+        return await modal.present();
     }
 }
