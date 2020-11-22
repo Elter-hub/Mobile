@@ -28,8 +28,8 @@ export class OneItemComponent implements OnInit {
                 private popoverController: PopoverController,
                 private itemService: ItemService,
                 private storageService: StorageService,
-                public toastController: ToastController,
-                public modalController: ModalController) {
+                private toastController: ToastController,
+                private modalController: ModalController) {
     }
 
     ngOnInit() {
@@ -115,7 +115,7 @@ export class OneItemComponent implements OnInit {
     async deleteItem(item: Item) {
         await this.dismiss();
         await this.presentToast('Item is deleted', true);
-        await this.router.navigateByUrl('tabs/profile')
+        await this.router.navigateByUrl('tabs/profile');
         await this.itemService.deleteItem(item).subscribe(data => {
             this.item = data;
         });

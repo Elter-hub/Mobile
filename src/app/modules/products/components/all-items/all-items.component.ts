@@ -62,13 +62,10 @@ export class AllItemsComponent implements OnInit {
         );
     }
 
-    async presentModal(item) {
+    async presentModal() {
         const modal = await this.modalController.create({
             component: NewItemComponent,
             cssClass: 'my-custom-class',
-            componentProps: {
-                item: item
-            }
         });
         return await modal.present();
     }

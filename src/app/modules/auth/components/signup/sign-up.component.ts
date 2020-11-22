@@ -20,34 +20,7 @@ export class SignUpComponent implements OnInit {
                 private authService: AuthService) {
     }
 
-    //  GETTERS
-    get userName() {
-        return this.signUpForm.get('userName');
-    }
 
-    get userLastName() {
-        return this.signUpForm.get('userLastName');
-    }
-
-    get userNickName() {
-        return this.signUpForm.get('userNickName');
-    }
-
-    get userEmail() {
-        return this.signUpForm.get('userEmail');
-    }
-
-    get userPassword() {
-        return this.signUpForm.get('userPassword');
-    }
-
-    get userConfirmPassword() {
-        return this.signUpForm.get('userConfirmPassword');
-    }
-
-    get userAge() {
-        return this.signUpForm.get('userAge');
-    }
 
     ngOnInit() {
         this.signUpForm = this.formBuilder.group({
@@ -103,5 +76,34 @@ export class SignUpComponent implements OnInit {
 
     async dismissLoading() {
         await this.loadingController.dismiss();
+    }
+
+    //  GETTERS
+    get userName() {
+        return this.signUpForm.get('userName');
+    }
+
+    get userLastName() {
+        return this.signUpForm.get('userLastName');
+    }
+
+    get userNickName() {
+        return this.signUpForm.get('userNickName');
+    }
+
+    get userEmail() {
+        return this.signUpForm.get('userEmail');
+    }
+
+    get userPassword() {
+        return this.signUpForm.get('userPassword');
+    }
+
+    get userConfirmPassword() {
+        return this.signUpForm.get('userConfirmPassword');
+    }
+
+    get userAge() {
+        return this.signUpForm.get('userAge');
     }
 }

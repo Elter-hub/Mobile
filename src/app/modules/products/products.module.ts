@@ -1,5 +1,4 @@
 import { IonicModule } from '@ionic/angular';
-import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -9,9 +8,9 @@ import { ExploreContainerComponentModule } from '../../explore-container/explore
 import { ProductsRoutingModule } from './products-routing.module'
 import {AllItemsComponent} from './components/all-items/all-items.component';
 import {ItemComponent} from './components/item/item.component';
-import {BrowserModule} from '@angular/platform-browser';
 import {OneItemComponent} from './components/one-item/one-item.component';
 import {AddItemPopOverComponent} from './components/add-item-pop-over/add-item-pop-over.component';
+import {NewItemComponent} from './components/new-item/new-item.component';
 
 @NgModule({
     providers: [],
@@ -26,6 +25,6 @@ import {AddItemPopOverComponent} from './components/add-item-pop-over/add-item-p
     exports: [
         ItemComponent
     ],
-    declarations: [ProductsPage, AllItemsComponent, ItemComponent, OneItemComponent, AddItemPopOverComponent]
+    declarations: [ProductsPage, AllItemsComponent, ItemComponent, OneItemComponent, AddItemPopOverComponent, NewItemComponent]
 })
 export class ProductsModule {}

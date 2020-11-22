@@ -1,3 +1,45 @@
-<p>
-  new-item works!
-</p>
+<ion-content>
+  <ion-button   type="submit" color="warning" (click)="back()">Back</ion-button>
+
+  <ion-text>
+    <h2>Add new Item</h2>
+  </ion-text>
+  <form
+          [formGroup]="addItemForm"
+          name="loginForm"
+          (ngSubmit)="f.form.valid && onSubmit(f.value)"
+          #f="ngForm"
+  >
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Item Name</ion-label>
+            <ion-input type="email" [formControl]="f.control.get('itemName')" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Description</ion-label>
+            <ion-input type="email" [formControl]="f.control.get('description')" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Price</ion-label>
+            <ion-input type="email" [formControl]="f.control.get('price')" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Quantity</ion-label>
+            <ion-input type="email" [formControl]="f.control.get('quantity')" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Type</ion-label>
+            <ion-input type="email" [formControl]="f.control.get('type')" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">URL</ion-label>
+            <ion-input type="email" [formControl]="f.control.get('itemImageUrl')" required></ion-input>
+          </ion-item>
+            <ion-button type="submit" color="tertiary" fill="outline" expand="block">Confirm</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

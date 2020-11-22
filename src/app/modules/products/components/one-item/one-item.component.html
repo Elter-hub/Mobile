@@ -9,7 +9,6 @@
         </ion-fab-button>
     </ion-fab>
     <ion-card>
-
         <ion-menu side="end" menuId="itemMenu" contentId="main">
             <ion-header>
                 <ion-toolbar color="primary">
@@ -26,14 +25,15 @@
                 </ion-list>
             </ion-content>
         </ion-menu>
-
         <ion-card-header>
             <ion-card-subtitle>{{item?.type}}</ion-card-subtitle>
             <ion-card-title>{{item?.itemName}}</ion-card-title>
             <ion-card-title style="text-decoration: underline" color="tertiary"
                             *ngIf="user.roles.includes('ROLE_ADMIN')">In store: {{item?.quantity}}</ion-card-title>
         </ion-card-header>
-        <ion-img [src]="item?.itemImageUrl"></ion-img>
+        <div align="center">
+        <img [src]="item?.itemImageUrl" [alt]="item.itemName">
+        </div>
         <ion-card-content>
             {{item?.description}}
         </ion-card-content>

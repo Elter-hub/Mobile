@@ -1,11 +1,11 @@
-ion-img {
-  height: 300px;
-  padding: 0;
-  margin: 0;
-}
+
 ion-card-content {
   padding: 0;
   margin: 0;
+}
+
+ion-card img {
+  max-height: 300px;
 }
 
 ion-fab-button {
