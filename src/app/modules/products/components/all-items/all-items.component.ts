@@ -34,12 +34,6 @@ export class AllItemsComponent implements OnInit {
         });
     }
 
-    loadData(event) {
-        setTimeout(() => {
-            event.target.complete();
-        }, 500);
-    }
-
     filterByName(value: string) {
         this.filtered = Object.assign([], this.allItems);
         this.filter = true;
