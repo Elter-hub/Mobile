@@ -1,4 +1,5 @@
 <ion-toolbar>
+    <ion-label slot="primary" color="tertiary" *ngIf="isLogin">{{user.userName}}</ion-label>
     <ion-buttons slot="primary">
         <ion-button color="secondary">
             <ion-icon name="person-add-outline" *ngIf="!isLogin"></ion-icon>
@@ -7,6 +8,7 @@
         <ion-button (click)="login()" color="secondary">
             <ion-icon name="log-in-outline" color="tertiary" *ngIf="!isLogin"></ion-icon>
             <ion-label color="tertiary" *ngIf="!isLogin"> Login</ion-label>
+
             <ion-icon name="log-out-outline" *ngIf="isLogin"></ion-icon>
             <ion-label *ngIf="isLogin">Logout</ion-label>
         </ion-button>

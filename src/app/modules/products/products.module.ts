@@ -2,7 +2,7 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ProductsPage } from './products.page';
 import { ExploreContainerComponentModule } from '../../explore-container/explore-container.module';
 
@@ -11,6 +11,7 @@ import {AllItemsComponent} from './components/all-items/all-items.component';
 import {ItemComponent} from './components/item/item.component';
 import {BrowserModule} from '@angular/platform-browser';
 import {OneItemComponent} from './components/one-item/one-item.component';
+import {AddItemPopOverComponent} from './components/add-item-pop-over/add-item-pop-over.component';
 
 @NgModule({
     providers: [],
@@ -19,11 +20,12 @@ import {OneItemComponent} from './components/one-item/one-item.component';
         CommonModule,
         FormsModule,
         ExploreContainerComponentModule,
-        ProductsRoutingModule
+        ProductsRoutingModule,
+        ReactiveFormsModule
     ],
     exports: [
         ItemComponent
     ],
-    declarations: [ProductsPage, AllItemsComponent, ItemComponent, OneItemComponent]
+    declarations: [ProductsPage, AllItemsComponent, ItemComponent, OneItemComponent, AddItemPopOverComponent]
 })
 export class ProductsModule {}

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {AddItemResponse} from '../../../models/addItemResponse';
 import {Item} from '../../../models/cart';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
-const CONTENT_API = 'http://localhost:8082/cart/';
+const CONTENT_API = 'http://localhost:8082/content/';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,20 +13,34 @@ export class ItemService {
 
   constructor(private http: HttpClient) { }
 
-  addItemToCart(userEmail: string, itemId, addOrRemove: boolean): Observable<AddItemResponse> {
-    return this.http.patch<AddItemResponse>(CONTENT_API + 'add-item', {
-      userEmail: userEmail,
-      itemId: itemId,
-      addOrRemove: addOrRemove
+  getAllItems(): Observable<Item[]> {
+    return this.http.get<Item[]>(CONTENT_API + 'all-items')
+  }
+
+  promote(item: Item, newPrice: number): Observable<Item>{
+    return this.http.patch<Item>(CONTENT_API + 'promote-item', {
+      item: item,
+      newPrice: newPrice
     })
   }
 
-  removeItemFromCart(userEmail: string, itemId: number): Observable<AddItemResponse>{
-    return this.http.patch<AddItemResponse>(CONTENT_API + 'remove-item', {
-      userEmail: userEmail,
-      itemId: itemId,
+  cancelPromotion(item: Item) {
+    return this.http.patch<Item>(CONTENT_API + 'cancel-promote-item', {
+      item: item
+    })
+  }
+//    const headers = new HttpHeaders({'token': token, 'amount': this.navParams.get('amount').toString(),
+  deleteItem(item: Item) {
+    const headers = new HttpHeaders({'itemId': item.itemId.toString()})
+    return this.http.delete<Item>(CONTENT_API + 'delete-item', {
+      headers: headers
     })
   }
 
-
+  changeQuantity(item: Item, quantity: number) {
+    return this.http.patch<Item>(CONTENT_API + 'change-quantity-item', {
+      item: item,
+      newQuantity: quantity
+    })
+  }
 }

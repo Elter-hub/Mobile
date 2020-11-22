@@ -17,8 +17,11 @@
                             <h2>-</h2>
                         </ion-button>
                     </ion-buttons>
-                    <ion-text slot="end">
+                    <ion-text *ngIf="!item.discount" slot="end">
                         {{item.price | currency: 'USD'}}
+                    </ion-text>
+                    <ion-text *ngIf="item.discount" slot="end" color="danger">
+                        {{item.newPrice | currency: 'USD'}}
                     </ion-text>
 
                     <ion-ripple-effect></ion-ripple-effect>

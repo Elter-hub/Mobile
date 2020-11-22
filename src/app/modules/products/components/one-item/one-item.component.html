@@ -1,41 +1,48 @@
 <ion-content>
+
     <ion-button (click)="dismiss()">
         <ion-icon name="arrow-back-outline"></ion-icon>
     </ion-button>
+    <ion-fab vertical="top" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="showItemOption()" id="main">
+            <ion-icon name="settings"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
     <ion-card>
-        <ion-card-header>
-            <ion-card-subtitle>{{item.type}}</ion-card-subtitle>
-            <ion-card-title>{{item.itemName}}</ion-card-title>
-            <ion-card-title *ngIf="isAdmin">SHOULD WORk</ion-card-title>
+
+        <ion-menu side="end" menuId="itemMenu" contentId="main">
+            <ion-header>
+                <ion-toolbar color="primary">
+                    <ion-title>Settings</ion-title>
+                </ion-toolbar>
+            </ion-header>
             <ion-content>
-                <ion-fab vertical="top" horizontal="end" slot="fixed" >
-                    <ion-fab-button (click)="showItemOption()" id="main">
-                        <ion-icon name="settings"></ion-icon>
-                    </ion-fab-button>
-                </ion-fab>
-                <ion-menu side="end" menuId="menu" contentId="main">
-                    <ion-header>
-                        <ion-toolbar color="primary">
-                            <ion-title>Settings</ion-title>
-                        </ion-toolbar>
-                    </ion-header>
-                    <ion-content>
-                        <ion-list >
-                            <ion-item [ngStyle]="{cursor: 'pointer'}" (click)="addItems()">Add items</ion-item>
-                            <ion-item [ngStyle]="{cursor: 'pointer'}" (click)="promote()">Promote</ion-item>
-                            <ion-item [ngStyle]="{cursor: 'pointer'}" (click)="cancelPromotion()">Cancel Promotion</ion-item>
-                            <ion-item [ngStyle]="{cursor: 'pointer'}" (click)="deleteItem(item)">Delete item</ion-item>
-                        </ion-list>
-                    </ion-content>
-                </ion-menu>
+                <ion-list>
+                    <ion-item [ngStyle]="{cursor: 'pointer'}" (click)="addItems(item)">Add items</ion-item>
+                    <ion-item [ngStyle]="{cursor: 'pointer'}" (click)="promote(item)">Promote</ion-item>
+                    <ion-item [ngStyle]="{cursor: 'pointer'}" (click)="cancelPromotion(item)">Cancel Promotion
+                    </ion-item>
+                    <ion-item [ngStyle]="{cursor: 'pointer'}" (click)="deleteItem(item)">Delete item</ion-item>
+                </ion-list>
             </ion-content>
+        </ion-menu>
+
+        <ion-card-header>
+            <ion-card-subtitle>{{item?.type}}</ion-card-subtitle>
+            <ion-card-title>{{item?.itemName}}</ion-card-title>
+            <ion-card-title style="text-decoration: underline" color="tertiary"
+                            *ngIf="user.roles.includes('ROLE_ADMIN')">In store: {{item?.quantity}}</ion-card-title>
         </ion-card-header>
-        <ion-img  [src]="item.itemImageUrl"></ion-img>
+        <ion-img [src]="item?.itemImageUrl"></ion-img>
         <ion-card-content>
-            {{item.description}}
+            {{item?.description}}
         </ion-card-content>
         <ion-card-content>
-            {{item.price | currency: 'USD'}}
+            <ion-text>
+                <h2 [ngStyle]="{textDecorationLine: item?.discount ? 'line-through' : 'none'}">{{item?.price | currency: 'USD'}}</h2>
+                <h2 *ngIf="item?.discount>0">Discount: {{item?.discount}}%</h2>
+                <h2 *ngIf="item?.discount>0" style="color: red">{{item?.newPrice | currency: 'USD'}}</h2>
+            </ion-text>
         </ion-card-content>
     </ion-card>
     <ion-button *ngIf="user" (click)="addToCard(item)">Add to card</ion-button>

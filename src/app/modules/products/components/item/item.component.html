@@ -2,12 +2,16 @@
 <ion-item-sliding>
     <ion-item class="ion-activatable" (click)="presentModal(item)">
         <ion-avatar>
-            <img [src]="item?.itemImageUrl" alt="">
+            <img [src]="item?.itemImageUrl" [alt]="item.itemName">
         </ion-avatar>
         <ion-text>    {{item.itemName}}</ion-text>
-        <ion-text slot="end">    {{quantityInCart}}x  </ion-text>
+        <ion-text slot="end">    {{quantityInCart}}  </ion-text>
         <ion-text slot="end">
-            {{item.price | currency: 'USD'}}
+            <ion-text>
+                <div [ngStyle]="{textDecorationLine: item.discount ? 'line-through' : 'none'}">{{item.price | currency: 'USD'}}</div>
+                <div *ngIf="item.discount>0">Discount: {{item.discount}}%</div>
+                <div *ngIf="item.discount>0" style="color: red">{{item.newPrice | currency: 'USD'}}</div>
+            </ion-text>
         </ion-text>
         <ion-ripple-effect></ion-ripple-effect>
     </ion-item>

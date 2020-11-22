@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from '../shared/services/user.service';
 import {Item} from '../../models/cart';
 import {StorageService} from '../shared/services/storage.service';
-import {ItemService} from '../products/services/item.service';
+import {CartService} from '../products/services/cart.service';
 import {User} from '../../models/user';
 import {ModalController} from '@ionic/angular';
 import {PaymentFormComponent} from './components/payment-form/payment-form.component';
@@ -21,7 +21,7 @@ export class CartPage implements OnInit {
     userEmail: string;
 
     constructor(private userService: UserService,
-                private itemService: ItemService,
+                private itemService: CartService,
                 public modalController: ModalController,
                 private storageService: StorageService ) {
     }
@@ -33,7 +33,7 @@ export class CartPage implements OnInit {
                 this.userEmail = userSubject.userEmail;
                 this.cart = userSubject.cart.items.sort((first, second) => first.itemId > second.itemId ? 1 : -1);
                 this.sum = 0;
-                userSubject.cart.items.forEach(item => this.sum += item.price * item.addedToCart)
+                this.countSum();
             }else {
                 this.storageService.getUser().then(userFromStorage => {
                     this.cart = userFromStorage.cart.items.sort((first, second) => first.itemId > second.itemId ? 1 : -1)
@@ -41,7 +41,7 @@ export class CartPage implements OnInit {
                     this.user = userFromStorage;
                     this.userService.userSubject.next(this.user);
                     this.sum = 0;
-                    this.cart.forEach(item => this.sum += item.price * item.addedToCart)
+                    this.countSum();
                 })
             }
         });
@@ -54,7 +54,7 @@ export class CartPage implements OnInit {
             this.storageService.saveUser(this.user)
             this.userService.userSubject.next(this.user);
             this.sum = 0;
-            this.cart.forEach(item => this.sum += item.price * item.addedToCart)
+            this.countSum();
         }, error => {
             console.log(error);
         })
@@ -67,7 +67,7 @@ export class CartPage implements OnInit {
             this.storageService.saveUser(this.user)
             this.userService.userSubject.next(this.user);
             this.sum = 0;
-            this.cart.forEach(item => this.sum += item.price * item.addedToCart)
+            this.countSum();
         }, error => {
             console.log(error);
         })
@@ -82,5 +82,16 @@ export class CartPage implements OnInit {
             }
         });
         return await modal.present();
+    }
+
+    countSum() {
+        this.cart.forEach(item => {
+            if (!item.discount){
+                this.sum += item.price * item.addedToCart
+            }
+            if (item.discount){
+                this.sum += item.newPrice * item.addedToCart
+            }
+        })
     }
 }

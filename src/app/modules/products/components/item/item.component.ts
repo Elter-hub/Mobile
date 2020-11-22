@@ -27,7 +27,5 @@ export class ItemComponent implements OnInit {
     return await modal.present();
   }
 
-  addItemToCart(item: Item) {
-    
-  }
+
 }

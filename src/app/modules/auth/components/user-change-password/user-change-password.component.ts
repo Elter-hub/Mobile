@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserActionService} from '../../services/user-action.service';
-import {AlertController, NavParams, PopoverController} from '@ionic/angular';
+import {AlertController, MenuController, NavParams, PopoverController} from '@ionic/angular';
 import {UserService} from '../../../shared/services/user.service';
 
 @Component({
