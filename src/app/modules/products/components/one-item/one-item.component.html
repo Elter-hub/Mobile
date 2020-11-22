@@ -32,7 +32,7 @@
                             *ngIf="user.roles.includes('ROLE_ADMIN')">In store: {{item?.quantity}}</ion-card-title>
         </ion-card-header>
         <div align="center">
-        <img [src]="item?.itemImageUrl" [alt]="item.itemName">
+        <img [src]="item?.itemImageUrl" [alt]="item?.itemName">
         </div>
         <ion-card-content>
             {{item?.description}}
