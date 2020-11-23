@@ -11,6 +11,7 @@ import {BehaviorSubject, from, Observable, throwError} from 'rxjs';
 import {StorageService} from './modules/shared/services/storage.service';
 import {AuthService} from './modules/auth/services/auth.service';
 import {UserService} from './modules/shared/services/user.service';
+import {Router} from '@angular/router';
 
 
 @Injectable({
@@ -23,6 +24,7 @@ export class AuthInterceptorService implements HttpInterceptor {
 
     constructor(public authService: AuthService,
                 private userService: UserService,
+                private router: Router,
                 private storageService: StorageService) {
     }
 
@@ -34,6 +36,8 @@ export class AuthInterceptorService implements HttpInterceptor {
             return next.handle(request).pipe(catchError(error => {
                 if (error instanceof HttpErrorResponse && error.status === 401 && this.userService.userSubject.getValue()) {
                     return this.handle401Error(request, next);
+                }else if(error.status === 403) {
+                    this.router.navigateByUrl('tabs/profile')
                 } else {
                     return throwError(error);
                 }

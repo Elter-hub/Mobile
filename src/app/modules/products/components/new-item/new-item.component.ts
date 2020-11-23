@@ -17,12 +17,12 @@ export class NewItemComponent implements OnInit {
 
   ngOnInit() {
     this.addItemForm = this.formBuilder.group({
-      itemName: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      price: ['', [Validators.pattern('[0-9]+')]],
-      quantity: ['', [Validators.required]],
-      type: ['', [Validators.required]],
-      itemImageUrl: ['', [Validators.required]],
+      itemName: ['REVO', [Validators.required]],
+      description: ['Revo', [Validators.required]],
+      price: ['2', [Validators.pattern('[0-9]+')]],
+      quantity: ['50', [Validators.required]],
+      type: ['Shitty drink', [Validators.required]],
+      itemImageUrl: ['https://newproducts.ua/wp-content/uploads/2018/03/revo.png', [Validators.required]],
     })
   }
 
